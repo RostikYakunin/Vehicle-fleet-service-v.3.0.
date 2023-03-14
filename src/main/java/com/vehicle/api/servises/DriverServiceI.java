@@ -1,7 +1,7 @@
 package com.vehicle.api.servises;
 
 
-import com.vehicle.api.dto.DriverDtoUpdate;
+import com.vehicle.api.dto.DriverDto;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
@@ -14,11 +14,11 @@ import java.util.Set;
 @Service
 public interface DriverServiceI {
 
-    Driver addDriver(Driver driver);
+    Driver addDriver(DriverDto driverDto);
 
     Optional<Driver> findDriverById(Long id);
 
-    Driver updateDriver(DriverDtoUpdate driver);
+    Driver updateDriver(DriverDto driver);
 
     boolean deleteDriverById(Long id);
 
@@ -31,5 +31,4 @@ public interface DriverServiceI {
     List<Transport> findAllTransportsWithoutDriver();
 
     List<Driver> findAllDrivers();
-
 }

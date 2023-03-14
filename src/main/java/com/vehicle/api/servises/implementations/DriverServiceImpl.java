@@ -1,6 +1,7 @@
 package com.vehicle.api.servises.implementations;
 
-import com.vehicle.api.dto.DriverDtoUpdate;
+import com.vehicle.api.dto.DriverDto;
+import com.vehicle.api.dto.handler.DriverDtoHandler;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
@@ -24,10 +25,11 @@ public class DriverServiceImpl implements DriverServiceI {
     }
 
     @Override
-    public Driver addDriver(Driver driver) {
-        Driver save = driverRepo.save(driver);
-        log.info("Driver was added : " + save);
-        return save;
+    public Driver addDriver(DriverDto driverDto) {
+        Driver driver = DriverDtoHandler.mappingDtoToDriverMethodAdd(driverDto);
+        log.info("Driver was added to db: " + driver);
+
+        return driverRepo.save(driver);
     }
 
     @Override
@@ -41,39 +43,12 @@ public class DriverServiceImpl implements DriverServiceI {
     }
 
     @Override
-    public Driver updateDriver(DriverDtoUpdate driverDto) {
+    public Driver updateDriver(DriverDto driverDto) {
         Optional<Driver> driver = driverRepo.findById(driverDto.getId());
-        return mappingDtoToDriver(driverDto, driver);
-    }
+        Driver upgradeDriver = DriverDtoHandler.mappingDtoToDriverMethodUpdate(driverDto, driver);
+        log.info("Driver update successful");
 
-    private Driver mappingDtoToDriver(DriverDtoUpdate driverDto, Optional<Driver> driver) {
-        if (driver.isEmpty()) {
-            log.error("Error, driver with id = " + driverDto.getId() + " not found");
-            throw new RuntimeException("Error, driver with id = " + driverDto.getId() + " not found");
-        }
-
-        if (driverDto.getNameOfDriver() != null) {
-            log.info("Driver`s name was updated from " + driver.get().getNameOfDriver() + " to " + driverDto.getNameOfDriver());
-            driver.get().setNameOfDriver(driverDto.getNameOfDriver());
-        }
-
-        if (driverDto.getSurnameOfDriver() != null) {
-            log.info("Driver`s surname was updated from " + driver.get().getSurnameOfDriver() + " to " + driverDto.getSurnameOfDriver());
-            driver.get().setSurnameOfDriver(driverDto.getSurnameOfDriver());
-        }
-
-        if (driverDto.getNumberOfPhone() != null) {
-            log.info("Driver`s phone was updated from " + driver.get().getPhoneNumber() + " to " + driverDto.getNumberOfPhone());
-            driver.get().setPhoneNumber(driverDto.getNumberOfPhone());
-        }
-
-        if (driverDto.getQualificationEnum() != null) {
-            log.info("Driver`s name was updated from " + driver.get().getQualificationEnum() + " to " + driverDto.getQualificationEnum());
-            driver.get().setQualificationEnum(driverDto.getQualificationEnum());
-        }
-
-        driverRepo.save(driver.get());
-        return driver.get();
+        return driverRepo.save(upgradeDriver);
     }
 
     @Override
