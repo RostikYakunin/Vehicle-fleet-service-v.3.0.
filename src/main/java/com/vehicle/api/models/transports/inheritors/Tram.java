@@ -3,6 +3,7 @@ package com.vehicle.api.models.transports.inheritors;
 import com.vehicle.api.models.transports.Transport;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 public class Tram extends Transport {
 
     @NotBlank(message = "Error, amount of railcars cannot be empty")
+    @Column(name = "railcar_amount")
     private Integer amountOfRailcar;
 
     @Override

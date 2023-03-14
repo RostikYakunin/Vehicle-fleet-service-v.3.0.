@@ -14,12 +14,15 @@ import javax.validation.constraints.NotBlank;
 public abstract class Transport {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    //@Column (name = "transport_id")
     private Long id;
 
     @NotBlank (message = "Error, transport`s brand cannot be empty")
+    @Column (name = "brand_of_transport")
     private String brandOfTransport;
 
     @NotBlank (message = "Error, passenger`s amount brand cannot be empty")
+    @Column (name = "amount_of_passengers")
     private Integer amountOfPassengers;
 
     @OneToOne (mappedBy = "transport")
@@ -30,6 +33,10 @@ public abstract class Transport {
     private Route route;
 
     @NotBlank (message = "Error, driver`s qualification cannot be empty")
+    //@Column (name = "driver_qualification")
+    //@OneToOne
+   // @JoinColumn (name = "qualification_type")
+    //@Enumerated (EnumType.ORDINAL)
     private DriverQualificationEnum driverQualificationEnum;
 
     public Transport() {
