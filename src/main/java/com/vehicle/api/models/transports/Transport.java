@@ -26,7 +26,7 @@ public abstract class Transport {
     @Column (name = "amount_of_passengers")
     private Integer amountOfPassengers;
 
-    @ManyToMany (cascade = CascadeType.ALL)
+    @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable (
             name = "transports_drivers",
             joinColumns = @JoinColumn (name = "transport_id"),
@@ -34,9 +34,13 @@ public abstract class Transport {
     )
     private Set<Driver> drivers;
 
-    @ManyToOne
-    @JoinColumn (name = "route_id")
-    private Route route;
+    @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable (
+            name = "transport_route",
+            joinColumns = @JoinColumn (name = "transport_id"),
+            inverseJoinColumns = @JoinColumn (name = "route_id")
+    )
+    private Set <Route> route;
 
     @NotBlank (message = "Error, driver`s qualification cannot be empty")
     @Enumerated (EnumType.STRING)

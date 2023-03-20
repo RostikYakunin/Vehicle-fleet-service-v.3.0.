@@ -22,10 +22,11 @@ public class Route {
     @Column (name = "end_way")
     private String endOfWay;
 
-    @OneToMany(mappedBy = "route")
+    @ManyToMany(mappedBy = "route")
     private Set<Transport> transports;
 
-    @OneToMany(mappedBy = "route")
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "route")
     private Set<Driver> drivers;
 
     public Route() {

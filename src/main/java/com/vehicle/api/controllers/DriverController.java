@@ -6,7 +6,6 @@ import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.servises.DriverServiceI;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,7 +14,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/drivers")
-@Validated
 public class DriverController {
 
     private final DriverServiceI driverService;
