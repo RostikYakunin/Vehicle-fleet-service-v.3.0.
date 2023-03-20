@@ -1,33 +1,37 @@
 package com.vehicle.api.models.drivers;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity
-@Table (name = "qualifications")
+//@Entity
+//@Table (name = "qualifications")
 public enum DriverQualificationEnum {
 
-    BUS_DRIVER("BUS"),
-    TRAM_DRIVER("TRAM");
+    BUS_DRIVER(),
+    TRAM_DRIVER();
 
-    DriverQualificationEnum (String type) {
-        this.type = type;
-    }
-
-    @Id
-    @Column (name = "qualification_id")
+    //@Id
+    //@Column (name = "qualification_id")
     private Long id;
 
-    @Column (name = "type")
-    private String type;
+    //@OneToOne (mapped)
+//    @ManyToOne
+//    @JoinColumn (name = "type_qualification")
+    //@OneToOne (mappedBy = "driverQualificationEnum")
+    private String qualificationType;
 
-    public String getType() {
-        return type;
+    public String getQualificationType() {
+        return qualificationType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setQualificationType(String qualificationType) {
+        this.qualificationType = qualificationType;
+    }
+
+    @Override
+    public String toString() {
+        return "DriverQualificationEnum{" +
+                "id=" + id +
+                ", qualificationType='" + qualificationType + '\'' +
+                '}';
     }
 }

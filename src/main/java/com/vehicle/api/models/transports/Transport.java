@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 @Data
@@ -25,18 +26,20 @@ public abstract class Transport {
     @Column (name = "amount_of_passengers")
     private Integer amountOfPassengers;
 
-    @OneToOne (mappedBy = "transport")
-    private Driver driver;
+    @ManyToMany (cascade = CascadeType.ALL)
+    @JoinTable (
+            name = "transports_drivers",
+            joinColumns = @JoinColumn (name = "transport_id"),
+            inverseJoinColumns = @JoinColumn (name = "driver_id")
+    )
+    private Set<Driver> drivers;
 
     @ManyToOne
     @JoinColumn (name = "route_id")
     private Route route;
 
     @NotBlank (message = "Error, driver`s qualification cannot be empty")
-    //@Column (name = "driver_qualification")
-    //@OneToOne
-   // @JoinColumn (name = "qualification_type")
-    //@Enumerated (EnumType.ORDINAL)
+    @Enumerated (EnumType.STRING)
     private DriverQualificationEnum driverQualificationEnum;
 
     public Transport() {

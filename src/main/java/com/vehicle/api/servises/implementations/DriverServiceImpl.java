@@ -3,25 +3,32 @@ package com.vehicle.api.servises.implementations;
 import com.vehicle.api.dto.DriverDto;
 import com.vehicle.api.dto.handler.DriverDtoHandler;
 import com.vehicle.api.models.drivers.Driver;
-import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.repos.DriverRepoI;
+import com.vehicle.api.repos.RouteRepoI;
+import com.vehicle.api.repos.TransportRepoI;
 import com.vehicle.api.servises.DriverServiceI;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
+@Transactional
 public class DriverServiceImpl implements DriverServiceI {
 
     private final DriverRepoI driverRepo;
+    private final TransportRepoI transportRepo;
+    private final RouteRepoI routeRepo;
 
-    public DriverServiceImpl(DriverRepoI driverRepo) {
+    @Autowired
+    public DriverServiceImpl(DriverRepoI driverRepo, TransportRepoI transportRepo, RouteRepoI routeRepo) {
         this.driverRepo = driverRepo;
+        this.transportRepo = transportRepo;
+        this.routeRepo = routeRepo;
     }
 
     @Override
@@ -58,7 +65,7 @@ public class DriverServiceImpl implements DriverServiceI {
             return false;
         }
 
-        if (driverRepo.findById(id).get().getTransport() != null) {
+        if (!driverRepo.findById(id).get().getTransport().isEmpty()) {
             log.warn("This driver can`t be deleted, driver is assigned to the transport = " + driverRepo.findById(id).get().getTransport().toString());
             return false;
         }
@@ -69,23 +76,48 @@ public class DriverServiceImpl implements DriverServiceI {
     }
 
     @Override
-    public boolean addDriverOnTransport(Driver driver, Transport transport) {
-        return false;
+    // TODO: to consist with DB query
+    public boolean addDriverOnTransport(long driverId, long transportId) {
+        Optional<Driver> driver = driverRepo.findById(driverId);
+        Optional<Transport> transport = transportRepo.findById(transportId);
+
+        if (driver.isEmpty() || transport.isEmpty()) {
+         log.warn("Driver or transport is null !");
+         return false;
+        }
+
+        if (transport.get().getDrivers() != null) {
+            log.warn("This transport " + transport.get() + " already has driver " + transport.get().getDrivers());
+            return false;
+        }
+
+        transport.get().setDrivers(Set.of(driver.get()));
+        transportRepo.save(transport.get());
+        log.info("Driver: " + driver.get() + " successful added to transport " + transport.get());
+        return true;
     }
 
     @Override
     public List<Driver> findAllDriverBySurname(String surname) {
-        return null;
+        List <Driver> driverList;
+        driverList = driverRepo.findDriversBySurname(surname);
+
+        log.info("Users list was successful prepared");
+        return driverList;
     }
 
     @Override
-    public Set<Driver> findAllDriverOnRoute(Route route) {
-        return route.getDrivers();
+    public Set<Driver> findAllDriverOnRoute(long routeId) {
+        if (routeRepo.findById(routeId).isEmpty()) {
+            log.warn("Route with id= " + routeId + " not found");
+            return Collections.emptySet();
+        }
+        return routeRepo.findById(routeId).get().getDrivers();
     }
 
     @Override
     public List<Transport> findAllTransportsWithoutDriver() {
-        return null;
+        return transportRepo.findTransportsWithoutDrivers();
     }
 
     @Override

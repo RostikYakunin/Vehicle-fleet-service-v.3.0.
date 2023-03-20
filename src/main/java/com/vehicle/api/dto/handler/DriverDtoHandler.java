@@ -5,7 +5,6 @@ import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.drivers.DriverQualificationEnum;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -15,7 +14,7 @@ public class DriverDtoHandler {
         Driver driver = new Driver();
         driver.setNameOfDriver(driverDto.getNameOfDriver());
         driver.setSurnameOfDriver(driverDto.getSurnameOfDriver());
-        driver.setPhoneNumber(driverDto.getNumberOfPhone());
+        driver.setPhoneNumber(driverDto.getPhoneNumber());
         driver.setQualificationEnum(
                 DriverQualificationEnum.valueOf(driverDto.getQualificationEnum().toUpperCase() + "_DRIVER")
         );
@@ -39,9 +38,9 @@ public class DriverDtoHandler {
             driver.get().setSurnameOfDriver(driverDto.getSurnameOfDriver());
         }
 
-        if (driverDto.getNumberOfPhone() != null) {
-            log.info("Driver`s phone was updated from " + driver.get().getPhoneNumber() + " to " + driverDto.getNumberOfPhone());
-            driver.get().setPhoneNumber(driverDto.getNumberOfPhone());
+        if (driverDto.getPhoneNumber() != null) {
+            log.info("Driver`s phone was updated from " + driver.get().getPhoneNumber() + " to " + driverDto.getPhoneNumber());
+            driver.get().setPhoneNumber(driverDto.getPhoneNumber());
         }
 
         if (driverDto.getQualificationEnum() != null) {

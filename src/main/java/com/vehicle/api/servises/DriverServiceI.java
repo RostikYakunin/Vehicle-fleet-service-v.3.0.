@@ -22,11 +22,11 @@ public interface DriverServiceI {
 
     boolean deleteDriverById(Long id);
 
-    boolean addDriverOnTransport(Driver driver, Transport transport);
+    boolean addDriverOnTransport(long driverId, long transportId);
 
     List<Driver> findAllDriverBySurname(String surname);
 
-    Set<Driver> findAllDriverOnRoute(Route route);
+    Set<Driver> findAllDriverOnRoute(long routeId);
 
     List<Transport> findAllTransportsWithoutDriver();
 

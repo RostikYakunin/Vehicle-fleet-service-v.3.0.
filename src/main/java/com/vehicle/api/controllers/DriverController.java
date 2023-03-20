@@ -2,6 +2,7 @@ package com.vehicle.api.controllers;
 
 import com.vehicle.api.dto.DriverDto;
 import com.vehicle.api.models.drivers.Driver;
+import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.servises.DriverServiceI;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/drivers")
@@ -20,11 +22,6 @@ public class DriverController {
 
     public DriverController(DriverServiceI driverService) {
         this.driverService = driverService;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Driver>> findAllDrivers() {
-        return ResponseEntity.ok(driverService.findAllDrivers());
     }
 
     @PostMapping
@@ -46,5 +43,37 @@ public class DriverController {
         return ResponseEntity.ok(driverService.updateDriver(driverDto));
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteDriverById(@PathVariable long id) {
+        driverService.deleteDriverById(id);
+    }
+
+    //TODO:Test
+    @PutMapping("/{d_id}/{t_id}")
+    public void addDriverOnTransport(@PathVariable long d_id, @PathVariable long t_id) {
+        driverService.addDriverOnTransport(d_id, t_id);
+    }
+
+    @GetMapping("/surname/{surname}")
+    public ResponseEntity<List<Driver>> findAllDriverBySurname(@PathVariable String surname) {
+        return ResponseEntity.status(HttpStatus.OK).body(driverService.findAllDriverBySurname(surname));
+    }
+
+    //TODO: test
+    @GetMapping("/driver_on_route/{id}")
+    public ResponseEntity<Set<Driver>> findAllDriverOnRoute(@PathVariable long id) {
+        return ResponseEntity.ok(driverService.findAllDriverOnRoute(id));
+    }
+
+    //TODO: test
+    @GetMapping("/route_without_driver")
+    public ResponseEntity<List<Transport>> findAllTransportsWithoutDriver(){
+        return ResponseEntity.ok(driverService.findAllTransportsWithoutDriver());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Driver>> findAllDrivers() {
+        return ResponseEntity.ok(driverService.findAllDrivers());
+    }
 
 }

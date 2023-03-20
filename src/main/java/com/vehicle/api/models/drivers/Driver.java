@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Data
 @Entity
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 public class Driver {
     @Id
     @Column(name = "driver_id")
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Error, driver`s name cannot be empty")
@@ -29,17 +30,23 @@ public class Driver {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
+    @Column (name = "qualification")
     private DriverQualificationEnum qualificationEnum;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn (name = "transport_id")//
-    private Transport transport;
+    @ManyToMany(mappedBy = "drivers")
+    private Set<Transport> transport;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "route_id")
     private Route route;
 
     public Driver() {
+    }
+
+    public Driver(String nameOfDriver, String surnameOfDriver, String phoneNumber) {
+        this.nameOfDriver = nameOfDriver;
+        this.surnameOfDriver = surnameOfDriver;
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -47,11 +54,4 @@ public class Driver {
         return "\nDriver ID = " + id + ", name: " + nameOfDriver + ", surname: " + surnameOfDriver + ", phone number: " + phoneNumber +
                 ", qualification: " + this.getQualificationEnum();
     }
-
-    // TODO: list of actions
-    // 1. class driverDto for add action with string qualification | +
-    // 2. handler for dto in driver service or separate class| +
-    // 3. relationship between enum and driver @oneToOne or @oneToMany| - don`t touch enum (delete table enum)
-    // 4. finish driver service and controller
-    // 5. continue following controllers and services
 }

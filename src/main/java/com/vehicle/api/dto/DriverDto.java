@@ -6,22 +6,18 @@ import lombok.Data;
 public class DriverDto {
 
     private Long id;
-
     private String nameOfDriver;
-
     private String surnameOfDriver;
-
-    private String numberOfPhone;
-
+    private String phoneNumber;
     private String qualificationEnum;
 
     public DriverDto() {
     }
 
-    public DriverDto(String nameOfDriver, String surnameOfDriver, String numberOfPhone, String qualificationEnum) {
+    public DriverDto(String nameOfDriver, String surnameOfDriver, String phoneNumber, String qualificationEnum) {
         this.nameOfDriver = nameOfDriver;
         this.surnameOfDriver = surnameOfDriver;
-        this.numberOfPhone = numberOfPhone;
+        this.phoneNumber = phoneNumber;
         this.qualificationEnum = qualificationEnum;
     }
 

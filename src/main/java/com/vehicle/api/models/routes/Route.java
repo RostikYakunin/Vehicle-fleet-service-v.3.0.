@@ -13,11 +13,13 @@ import java.util.Set;
 @Table(name = "routes")
 public class Route {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotBlank(message = "Error, start way cannot be empty")
+    @Column (name = "start_way")
     private String startOfWay;
     @NotBlank(message = "Error, end way cannot be empty")
+    @Column (name = "end_way")
     private String endOfWay;
 
     @OneToMany(mappedBy = "route")
@@ -25,6 +27,14 @@ public class Route {
 
     @OneToMany(mappedBy = "route")
     private Set<Driver> drivers;
+
+    public Route() {
+    }
+
+    public Route(String startOfWay, String endOfWay) {
+        this.startOfWay = startOfWay;
+        this.endOfWay = endOfWay;
+    }
 
     @Override
     public String toString() {

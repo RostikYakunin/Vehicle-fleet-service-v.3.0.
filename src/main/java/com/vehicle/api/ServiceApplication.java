@@ -11,3 +11,10 @@ public class ServiceApplication {
 	}
 
 }
+
+// TODO: list of actions
+// 1. class driverDto for add action with string qualification || +
+// 2. handler for dto in driver service or separate class|| +
+// 3. relationship between enum and driver @oneToOne or @oneToMany|| - don`t touch enum (delete table enum)
+// TODO: 4. finish driver service and controller|| not tested
+// TODO: 5. continue following controllers and services||
