@@ -4,6 +4,7 @@ import com.vehicle.api.dto.DriverDto;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.servises.DriverServiceI;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class DriverController {
 
     private final DriverServiceI driverService;
 
+    @Autowired
     public DriverController(DriverServiceI driverService) {
         this.driverService = driverService;
     }

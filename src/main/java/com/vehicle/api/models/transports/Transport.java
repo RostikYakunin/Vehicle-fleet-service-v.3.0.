@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,15 +15,13 @@ import java.util.Set;
 @Table(name = "transports")
 public abstract class Transport {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    //@Column (name = "transport_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank (message = "Error, transport`s brand cannot be empty")
     @Column (name = "brand_of_transport")
     private String brandOfTransport;
 
-    @NotBlank (message = "Error, passenger`s amount brand cannot be empty")
     @Column (name = "amount_of_passengers")
     private Integer amountOfPassengers;
 
@@ -32,7 +31,7 @@ public abstract class Transport {
             joinColumns = @JoinColumn (name = "transport_id"),
             inverseJoinColumns = @JoinColumn (name = "driver_id")
     )
-    private Set<Driver> drivers;
+    private Set<Driver> drivers = new HashSet<>();
 
     @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable (
@@ -40,9 +39,8 @@ public abstract class Transport {
             joinColumns = @JoinColumn (name = "transport_id"),
             inverseJoinColumns = @JoinColumn (name = "route_id")
     )
-    private Set <Route> route;
+    private Set <Route> route = new HashSet<>();
 
-    @NotBlank (message = "Error, driver`s qualification cannot be empty")
     @Enumerated (EnumType.STRING)
     private DriverQualificationEnum driverQualificationEnum;
 

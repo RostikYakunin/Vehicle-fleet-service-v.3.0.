@@ -11,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 @Entity
 public class Tram extends Transport {
 
-    @NotBlank(message = "Error, amount of railcars cannot be empty")
     @Column(name = "railcar_amount")
     private Integer amountOfRailcar;
 

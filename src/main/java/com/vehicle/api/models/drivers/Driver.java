@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -34,7 +35,7 @@ public class Driver {
     private DriverQualificationEnum qualificationEnum;
 
     @ManyToMany(mappedBy = "drivers")
-    private Set<Transport> transport;
+    private Set<Transport> transport = new HashSet<>();
 
     @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "route_id")

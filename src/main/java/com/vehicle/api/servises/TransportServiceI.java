@@ -1,17 +1,19 @@
 package com.vehicle.api.servises;
 
+import com.vehicle.api.dto.TransportDto;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TransportServiceI {
 
-    Transport addTransport(Transport transport);
+    Transport addTransport(TransportDto transportDto);
 
-    Transport findTransportById(Long id);
+    Optional<Transport> findTransportById(Long id);
 
-    Transport updateTransport(Transport transport);
+    Transport updateTransport(TransportDto transportDto);
 
     boolean deleteTransport(Long id);
 
@@ -21,7 +23,7 @@ public interface TransportServiceI {
 
     List<Transport> findTransportWithoutDriver();
 
-    boolean addTransportToRoute(Transport transport, Route route);
+    boolean addTransportToRoute(long transportId, long routeId);
 
-    boolean removeTransportFromRoute(Transport transport, Route route);
+    boolean removeTransportFromRoute(long transportId, long routeId);
 }

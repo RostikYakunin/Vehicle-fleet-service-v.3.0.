@@ -15,7 +15,6 @@ public class Bus extends Transport {
     @Column(name = "bus_type")
     private String type;
 
-    @NotBlank(message = "Error, door`s amount cannot be empty")
     @Column(name = "doors_amount")
     private Integer amountOfDoors;
 

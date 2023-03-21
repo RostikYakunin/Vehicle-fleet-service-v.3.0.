@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -23,11 +24,11 @@ public class Route {
     private String endOfWay;
 
     @ManyToMany(mappedBy = "route")
-    private Set<Transport> transports;
+    private Set<Transport> transports = new HashSet<>();
 
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "route")
-    private Set<Driver> drivers;
+    private Set<Driver> drivers = new HashSet<>();
 
     public Route() {
     }

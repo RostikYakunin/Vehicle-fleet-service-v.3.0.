@@ -1,5 +1,6 @@
 package com.vehicle.api;
 
+import com.vehicle.api.servises.DriverServiceI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -17,4 +18,5 @@ public class ServiceApplication {
 // 2. handler for dto in driver service or separate class|| +
 // 3. relationship between enum and driver @oneToOne or @oneToMany|| - don`t touch enum (delete table enum)
 // 4. finish driver service and controller|| TODO: partly tested
-// TODO: 5. finished route dto, dto handler, service, controller
+// 5. finished route dto, dto handler, service, controller|| TODO: test with repo query is fallen
+// 6. TODO: finished transport dto, handler, service, controller||
