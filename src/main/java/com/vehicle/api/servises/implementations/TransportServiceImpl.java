@@ -1,6 +1,7 @@
 package com.vehicle.api.servises.implementations;
 
 import com.vehicle.api.dto.TransportDto;
+import com.vehicle.api.dto.handler.RouteDtoHandler;
 import com.vehicle.api.dto.handler.TransportDtoHandler;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
@@ -9,15 +10,14 @@ import com.vehicle.api.models.transports.inheritors.Tram;
 import com.vehicle.api.repos.DriverRepoI;
 import com.vehicle.api.repos.RouteRepoI;
 import com.vehicle.api.repos.TransportRepoI;
+import com.vehicle.api.servises.RouteServiceI;
 import com.vehicle.api.servises.TransportServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Slf4j
@@ -26,12 +26,15 @@ public class TransportServiceImpl implements TransportServiceI {
     private final DriverRepoI driverRepo;
     private final TransportRepoI transportRepo;
     private final RouteRepoI routeRepo;
+    private final RouteServiceI routeService;
 
     @Autowired
-    public TransportServiceImpl(DriverRepoI driverRepo, TransportRepoI transportRepo, RouteRepoI routeRepo) {
+    public TransportServiceImpl(DriverRepoI driverRepo, TransportRepoI transportRepo, RouteRepoI routeRepo,
+                                RouteServiceI routeService) {
         this.driverRepo = driverRepo;
         this.transportRepo = transportRepo;
         this.routeRepo = routeRepo;
+        this.routeService = routeService;
     }
 
     @Override
@@ -107,7 +110,6 @@ public class TransportServiceImpl implements TransportServiceI {
         return transportRepo.findTransportWithoutDriver();
     }
 
-    // TODO: not work , not display inner info
     @Override
     public boolean addTransportToRoute(long transportId, long routeId) {
         if (transportRepo.findById(transportId).isEmpty() || routeRepo.findById(routeId).isEmpty()) {
@@ -118,14 +120,13 @@ public class TransportServiceImpl implements TransportServiceI {
         Route route = routeRepo.findById(routeId).get();
         Transport transport = transportRepo.findById(transportId).get();
 
-        route.setTransports(new HashSet<>(Set.of(transport)));
-        log.info("On route " + route + " was added transport " + transport);
+        route.getTransports().add(transport);
 
-        routeRepo.save(route);
+        log.info("On route " + route + " was added transport " + transport);
+        routeService.updateRoute(RouteDtoHandler.createRouteDto(route));
         log.info("Route was update " + route);
         return true;
     }
-
     @Override
     public boolean removeTransportFromRoute(long transportId, long routeId) {
         if (transportRepo.findById(transportId).isEmpty() || routeRepo.findById(routeId).isEmpty()) {
@@ -136,13 +137,11 @@ public class TransportServiceImpl implements TransportServiceI {
         Transport transport = transportRepo.findById(transportId).get();
         Route route = routeRepo.findById(routeId).get();
 
-
-        // TODO: remake like a stream
         for (Transport tr : route.getTransports()) {
             if (tr.equals(transport)) {
                 tr = null;
                 log.info("Transport " + transport + " was deleted from route " + route);
-                routeRepo.save(route);
+                routeService.updateRoute(RouteDtoHandler.createRouteDto(route));
                 return true;
             } else {
                 log.warn("Transport " + transport + " not found on route " + route);

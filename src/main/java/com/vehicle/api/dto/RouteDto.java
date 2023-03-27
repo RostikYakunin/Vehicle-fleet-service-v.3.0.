@@ -1,17 +1,21 @@
 package com.vehicle.api.dto;
 
+import com.vehicle.api.models.drivers.Driver;
+import com.vehicle.api.models.transports.Transport;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Data
 public class RouteDto {
 
     private long id;
-
     private String startOfWay;
-
     private String endOfWay;
+
+    private Set<Transport> transports;
+
+    private Set<Driver> drivers;
 
     public RouteDto() {
     }

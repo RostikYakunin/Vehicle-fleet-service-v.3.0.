@@ -1,6 +1,8 @@
 package com.vehicle.api.controllers;
 
 import com.vehicle.api.dto.TransportDto;
+import com.vehicle.api.dto.returned_value.Converter;
+import com.vehicle.api.dto.returned_value.ReturnedTransport;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.servises.TransportServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping ("/api/transports")
@@ -27,10 +32,11 @@ public class TransportController {
     }
 
     @GetMapping ("/{id}")
-    public ResponseEntity <Transport> findTransportById (@PathVariable long id) {
-        return ResponseEntity.ok(transportService.findTransportById(id)
-                .orElseThrow( () -> new RuntimeException("Transport with " + id + " not found"))
-        );
+    public ResponseEntity <ReturnedTransport> findTransportById (@PathVariable long id) {
+        Transport transport = transportService.findTransportById(id)
+                .orElseThrow(() -> new RuntimeException("Transport with " + id + " not found"));
+
+        return ResponseEntity.ok(Converter.convertToReturnedTransport(transport));
     }
 
     @PutMapping
@@ -44,8 +50,9 @@ public class TransportController {
     }
 
     @GetMapping
-    public ResponseEntity <List<Transport>> findAllTransports () {
-        return ResponseEntity.ok(transportService.findAllTransports());
+    public ResponseEntity <List<ReturnedTransport>> findAllTransports () {
+        Set<ReturnedTransport> transports = transportService.findAllTransports().stream().map(Converter::convertToReturnedTransport).collect(Collectors.toSet());
+        return ResponseEntity.ok(new ArrayList<>(transports));
     }
 
     @GetMapping ("/by_brand/{brand}")
@@ -53,13 +60,12 @@ public class TransportController {
         return ResponseEntity.ok(transportService.findTransportByBrand(brand));
     }
 
-    // TODO: check method with null argument
     @GetMapping ("/without_driver")
     public ResponseEntity <List<Transport>> findTransportWithoutDriver () {
         return ResponseEntity.ok(transportService.findTransportWithoutDriver());
     }
 
-    // TODO: see service
+    // TODO: test not work
     @PutMapping ("/transport_to_route/{transportId}/{routeId}")
     public void addTransportToRoute (@PathVariable long transportId, @PathVariable long routeId) {
         transportService.addTransportToRoute(transportId, routeId);

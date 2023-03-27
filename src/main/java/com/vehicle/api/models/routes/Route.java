@@ -26,7 +26,6 @@ public class Route {
     @ManyToMany(mappedBy = "route")
     private Set<Transport> transports = new HashSet<>();
 
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "route")
     private Set<Driver> drivers = new HashSet<>();
 

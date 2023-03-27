@@ -1,6 +1,9 @@
 package com.vehicle.api.controllers;
 
 import com.vehicle.api.dto.DriverDto;
+import com.vehicle.api.dto.returned_value.Converter;
+import com.vehicle.api.dto.returned_value.ReturnedDriver;
+import com.vehicle.api.dto.returned_value.ReturnedTransport;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.servises.DriverServiceI;
@@ -10,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/drivers")
@@ -31,11 +36,12 @@ public class DriverController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Driver> findDriverById(@PathVariable long id) {
+    public ResponseEntity<ReturnedDriver> findDriverById(@PathVariable long id) {
         Driver driver = driverService.findDriverById(id).orElseThrow(
                 () -> new RuntimeException("Driver with id = " + id + " not found")
         );
-        return ResponseEntity.status(HttpStatus.OK).body(driver);
+
+        return ResponseEntity.ok(Converter.convertToReturnedDriver(driver));
     }
 
     @PutMapping
@@ -44,36 +50,48 @@ public class DriverController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDriverById(@PathVariable long id) {
+    public ResponseEntity<String> deleteDriverById(@PathVariable long id) {
         driverService.deleteDriverById(id);
+        return ResponseEntity.ok("Driver with " + id + " was deleted");
     }
 
-    //TODO:Test
-    @PutMapping("/{d_id}/{t_id}")
-    public void addDriverOnTransport(@PathVariable long d_id, @PathVariable long t_id) {
+    @PutMapping("/driver_to_transport/{d_id}/{t_id}")
+    public ResponseEntity<String> addDriverOnTransport(@PathVariable long d_id, @PathVariable long t_id) {
         driverService.addDriverOnTransport(d_id, t_id);
+        return ResponseEntity.ok("Driver with id " + d_id + " was successfully added on transport with id " + t_id);
     }
 
     @GetMapping("/surname/{surname}")
-    public ResponseEntity<List<Driver>> findAllDriverBySurname(@PathVariable String surname) {
-        return ResponseEntity.status(HttpStatus.OK).body(driverService.findAllDriverBySurname(surname));
+    public ResponseEntity<List<ReturnedDriver>> findAllDriverBySurname(@PathVariable String surname) {
+        List<ReturnedDriver> drivers = driverService.findAllDriverBySurname(surname).stream()
+                .map(Converter::convertToReturnedDriver)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(drivers);
     }
 
     //TODO: test
-    @GetMapping("/driver_on_route/{id}")
-    public ResponseEntity<Set<Driver>> findAllDriverOnRoute(@PathVariable long id) {
-        return ResponseEntity.ok(driverService.findAllDriverOnRoute(id));
+    @GetMapping("/drivers_on_route/{id}")
+    public ResponseEntity<Set<ReturnedDriver>> findAllDriverOnRoute(@PathVariable long id) {
+        Set<ReturnedDriver> drivers = driverService.findAllDriverOnRoute(id).stream()
+                .map(Converter::convertToReturnedDriver)
+                .collect(Collectors.toSet());
+        return ResponseEntity.ok(drivers);
     }
 
-    //TODO: test
-    @GetMapping("/route_without_driver")
-    public ResponseEntity<List<Transport>> findAllTransportsWithoutDriver(){
-        return ResponseEntity.ok(driverService.findAllTransportsWithoutDriver());
+    @GetMapping("/transport_without_driver")
+    public ResponseEntity<List<ReturnedTransport>> findAllTransportsWithoutDriver() {
+        List<ReturnedTransport> transports = driverService.findAllTransportsWithoutDriver().stream()
+                .map(Converter::convertToReturnedTransport)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(transports);
     }
 
     @GetMapping
-    public ResponseEntity<List<Driver>> findAllDrivers() {
-        return ResponseEntity.ok(driverService.findAllDrivers());
+    public ResponseEntity<List<ReturnedDriver>> findAllDrivers() {
+        List<ReturnedDriver> dr = driverService.findAllDrivers().stream()
+                .map(Converter::convertToReturnedDriver)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new ArrayList<>(dr));
     }
 
 }

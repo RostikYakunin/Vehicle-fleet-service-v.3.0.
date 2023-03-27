@@ -1,7 +1,8 @@
 package com.vehicle.api.controllers;
 
 import com.vehicle.api.dto.RouteDto;
-import com.vehicle.api.dto.handler.RouteDtoHandler;
+import com.vehicle.api.dto.returned_value.Converter;
+import com.vehicle.api.dto.returned_value.ReturnedRoute;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.servises.RouteServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping ("/api/routes")
@@ -31,9 +31,10 @@ public class RouteController {
     }
 
     @GetMapping ("/{id}")
-    public ResponseEntity<Route> findRouteById (@PathVariable long id) {
-        return ResponseEntity.ok(routeService.findRouteById(id)
-                .orElseThrow( () -> new RuntimeException("Route with id=" + id + " not found")));
+    public ResponseEntity<ReturnedRoute> findRouteById (@PathVariable long id) {
+        Route route = routeService.findRouteById(id).orElseThrow(() -> new RuntimeException("Route with id=" + id + " not found"));
+
+        return ResponseEntity.ok(Converter.convertToReturnedRoute(route));
     }
 
     @PutMapping

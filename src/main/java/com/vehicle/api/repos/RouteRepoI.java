@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RouteRepoI extends CrudRepository<Route, Long> {
-    @Query("SELECT r FROM Route r WHERE r.transports is null")
+    @Query("SELECT r FROM Route r WHERE r.transports is empty")
     List<Route> findAllRoutesWithoutTransport();
 }

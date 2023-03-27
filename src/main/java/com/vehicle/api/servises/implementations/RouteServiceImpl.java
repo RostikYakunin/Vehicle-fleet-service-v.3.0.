@@ -29,7 +29,6 @@ public class RouteServiceImpl implements RouteServiceI {
         this.routeRepo = routeRepo;
     }
 
-
     @Override
     public Route addRoute(RouteDto routeDto) {
         Route route = RouteDtoHandler.mappingDtoToRouteMethodAdd(routeDto);

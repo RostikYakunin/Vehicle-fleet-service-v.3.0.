@@ -12,6 +12,43 @@ import java.util.Optional;
 @Slf4j
 public class TransportDtoHandler {
 
+    public static TransportDto createTransportDto(Transport transport) {
+        TransportDto transportDto;
+
+        if (transport.getDriverQualificationEnum().equals(DriverQualificationEnum.BUS_DRIVER)) {
+            Bus bus = (Bus) transport;
+            transportDto = busDtoCreator(bus);
+        } else {
+            Tram tram = (Tram) transport;
+            transportDto = tramDtoCreator(tram);
+        }
+
+        return transportDto;
+    }
+
+    private static TransportDto tramDtoCreator(Tram tram) {
+        TransportDto transportDto;
+        transportDto = new TransportDto();
+        transportDto.setId(tram.getId());
+        transportDto.setBrandOfTransport(tram.getBrandOfTransport());
+        transportDto.setAmountOfPassengers(tram.getAmountOfPassengers());
+        transportDto.setDriverQualificationEnum("TRAM");
+        transportDto.setAmountOfRailcar(transportDto.getAmountOfRailcar());
+        return transportDto;
+    }
+
+    private static TransportDto busDtoCreator(Bus bus) {
+        TransportDto transportDto;
+        transportDto = new TransportDto();
+        transportDto.setId(bus.getId());
+        transportDto.setBrandOfTransport(bus.getBrandOfTransport());
+        transportDto.setAmountOfPassengers(bus.getAmountOfPassengers());
+        transportDto.setType(bus.getType());
+        transportDto.setAmountOfDoors(bus.getAmountOfDoors());
+        transportDto.setDriverQualificationEnum("BUS");
+        return transportDto;
+    }
+
     public static Transport mappingDtoToTransportMethodAdd(TransportDto transportDto) {
 
         if (transportDto.getAmountOfDoors() != null) {
@@ -74,6 +111,16 @@ public class TransportDtoHandler {
         if (transportDto.getDriverQualificationEnum() != null) {
             log.info("Transport`s driver qualifications was updated from " + transport.get().getDriverQualificationEnum() + " to " + transportDto.getDriverQualificationEnum());
             transport.get().setDriverQualificationEnum(DriverQualificationEnum.valueOf(transportDto.getDriverQualificationEnum().toUpperCase() + "_DRIVER"));
+        }
+
+        if (!transportDto.getDrivers().isEmpty()) {
+
+            transport.get().getDrivers().addAll(transportDto.getDrivers());
+        }
+
+        if (!transportDto.getRoutes().isEmpty()) {
+
+            transport.get().getRoute().addAll(transportDto.getRoutes());
         }
 
         if (transportDto.getType() != null && bus != null) {
