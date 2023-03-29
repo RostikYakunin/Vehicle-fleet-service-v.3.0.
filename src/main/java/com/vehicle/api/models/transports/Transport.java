@@ -18,30 +18,30 @@ public abstract class Transport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank (message = "Error, transport`s brand cannot be empty")
-    @Column (name = "brand_of_transport")
+    @NotBlank(message = "Error, transport`s brand cannot be empty")
+    @Column(name = "brand_of_transport")
     private String brandOfTransport;
 
-    @Column (name = "amount_of_passengers")
+    @Column(name = "amount_of_passengers")
     private Integer amountOfPassengers;
 
-    @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable (
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
             name = "transports_drivers",
-            joinColumns = @JoinColumn (name = "transport_id"),
-            inverseJoinColumns = @JoinColumn (name = "driver_id")
+            joinColumns = @JoinColumn(name = "transport_id"),
+            inverseJoinColumns = @JoinColumn(name = "driver_id")
     )
     private Set<Driver> drivers = new HashSet<>();
 
-    @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable (
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
             name = "transports_routes",
-            joinColumns = @JoinColumn (name = "transport_id"),
-            inverseJoinColumns = @JoinColumn (name = "route_id")
+            joinColumns = @JoinColumn(name = "transport_id"),
+            inverseJoinColumns = @JoinColumn(name = "route_id")
     )
-    private Set <Route> route = new HashSet<>();
+    private Set<Route> route = new HashSet<>();
 
-    @Enumerated (EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private DriverQualificationEnum driverQualificationEnum;
 
     public Transport() {

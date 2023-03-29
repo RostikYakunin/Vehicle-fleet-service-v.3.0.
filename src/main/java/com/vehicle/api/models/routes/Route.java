@@ -17,10 +17,10 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotBlank(message = "Error, start way cannot be empty")
-    @Column (name = "start_way")
+    @Column(name = "start_way")
     private String startOfWay;
     @NotBlank(message = "Error, end way cannot be empty")
-    @Column (name = "end_way")
+    @Column(name = "end_way")
     private String endOfWay;
 
     @ManyToMany(mappedBy = "route")

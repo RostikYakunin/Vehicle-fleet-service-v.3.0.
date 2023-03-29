@@ -21,8 +21,8 @@ public class ReturnedTransport {
 
     private Integer amountOfRailcar;
 
-    private Set <Long> routesId = new HashSet<>();
+    private Set<Long> routesId = new HashSet<>();
 
-    private Set <Long> driversId = new HashSet<>();
+    private Set<Long> driversId = new HashSet<>();
 
 }

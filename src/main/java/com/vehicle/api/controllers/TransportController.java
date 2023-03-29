@@ -1,8 +1,8 @@
 package com.vehicle.api.controllers;
 
 import com.vehicle.api.mediators.dto.TransportDto;
-import com.vehicle.api.mediators.returned_value.converter.ReturnedConverter;
 import com.vehicle.api.mediators.returned_value.ReturnedTransport;
+import com.vehicle.api.mediators.returned_value.converter.ReturnedConverter;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.services.interfaces.TransportServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class TransportController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity <String> deleteTransportById(@PathVariable long id) {
+    public ResponseEntity<String> deleteTransportById(@PathVariable long id) {
         transportService.deleteTransport(id);
         return ResponseEntity.ok("Transport with id " + id + " was deleted");
     }
@@ -75,13 +75,13 @@ public class TransportController {
     }
 
     @PutMapping("/transport_to_route/{transportId}/{routeId}")
-    public ResponseEntity <String> addTransportToRoute(@PathVariable long transportId, @PathVariable long routeId) {
+    public ResponseEntity<String> addTransportToRoute(@PathVariable long transportId, @PathVariable long routeId) {
         transportService.addTransportToRoute(transportId, routeId);
         return ResponseEntity.ok("Transport with id " + transportId + " was added to route with id " + routeId);
     }
 
     @DeleteMapping("/transport_from_route/{transportId}/{routeId}")
-    public ResponseEntity <String> removeTransportFromRoute(@PathVariable long transportId, @PathVariable long routeId) {
+    public ResponseEntity<String> removeTransportFromRoute(@PathVariable long transportId, @PathVariable long routeId) {
         transportService.removeTransportFromRoute(transportId, routeId);
         return ResponseEntity.ok("Transport with id " + transportId + " was deleted from route with id " + routeId);
     }

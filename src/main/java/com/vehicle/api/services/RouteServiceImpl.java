@@ -61,14 +61,14 @@ public class RouteServiceImpl implements RouteServiceI {
     public boolean deleteRouteById(Long id) {
         Optional<Route> foundRoute = routeRepo.findById(id);
 
-        if(foundRoute.isEmpty()) {
+        if (foundRoute.isEmpty()) {
             log.warn("Route with id= " + id + " not found");
             return false;
         }
 
-        if (! foundRoute.get().getTransports().isEmpty()) {
-           log.warn("This route cannot be deleted, route has assigned transport: " + foundRoute.get().getTransports());
-           return false;
+        if (!foundRoute.get().getTransports().isEmpty()) {
+            log.warn("This route cannot be deleted, route has assigned transport: " + foundRoute.get().getTransports());
+            return false;
         }
 
         log.info("Route with id" + id + " was deleted");

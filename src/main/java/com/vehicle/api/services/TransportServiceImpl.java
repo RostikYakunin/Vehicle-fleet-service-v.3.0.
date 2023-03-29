@@ -1,7 +1,6 @@
 package com.vehicle.api.services;
 
 import com.vehicle.api.mediators.dto.TransportDto;
-import com.vehicle.api.mediators.dto.handler.RouteDtoHandler;
 import com.vehicle.api.mediators.dto.handler.TransportDtoHandler;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
@@ -16,11 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -129,6 +125,7 @@ public class TransportServiceImpl implements TransportServiceI {
         log.info("Route was update " + route);
         return true;
     }
+
     @Override
     public boolean removeTransportFromRoute(long transportId, long routeId) {
         Optional<Route> route = routeRepo.findById(routeId);
@@ -143,30 +140,6 @@ public class TransportServiceImpl implements TransportServiceI {
         updateTransport(TransportDtoHandler.createTransportDto(transport.get()));
 
         log.info("Transport was removed from route");
-
-
-
-//        Set<Transport> transports = route.getTransports().stream()
-//                .filter(tr -> tr.equals(transport))
-//                .map(tr -> tr = null)
-//                .collect(Collectors.toSet());
-//
-//        route.setTransports(new HashSet<>(transports));
-//        routeRepo.save(route);
-
-//        for (Transport tr : route.getTransports()) {
-//            if (tr.equals(transport)) {
-//                tr = null;
-//                log.info("Transport " + transport + " was deleted from route " + route);
-//                routeRepo.save(route);
-//                //routeService.updateRoute(RouteDtoHandler.createRouteDto(route));
-//                return true;
-//            } else {
-//                log.warn("Transport " + transport + " not found on route " + route);
-//                return false;
-//            }
-//        }
-
         return true;
     }
 }

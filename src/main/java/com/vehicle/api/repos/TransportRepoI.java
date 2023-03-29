@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface TransportRepoI extends CrudRepository<Transport, Long> {
 
-    @Query ("SELECT t FROM Transport t WHERE t.brandOfTransport = :brand")
-    List <Transport> findTransportByBrand (@Param("brand") String brand);
+    @Query("SELECT t FROM Transport t WHERE t.brandOfTransport = :brand")
+    List<Transport> findTransportByBrand(@Param("brand") String brand);
 
     @Query("SELECT t FROM Transport t WHERE t.drivers is empty")
-    List <Transport> findTransportWithoutDriver ();
+    List<Transport> findTransportWithoutDriver();
 }

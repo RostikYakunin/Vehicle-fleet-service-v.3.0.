@@ -45,12 +45,12 @@ public class RouteDtoHandler {
             route.get().setEndOfWay(routeDto.getEndOfWay());
         }
 
-        if (! routeDto.getTransports().isEmpty()) {
+        if (!routeDto.getTransports().isEmpty()) {
             log.info("To route was added new transports");
             route.get().getTransports().addAll(routeDto.getTransports());
         }
 
-        if (! routeDto.getDrivers().isEmpty()) {
+        if (!routeDto.getDrivers().isEmpty()) {
             log.info("To route was added new drivers");
             route.get().getDrivers().addAll(routeDto.getDrivers());
         }

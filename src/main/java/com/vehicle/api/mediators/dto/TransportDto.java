@@ -40,6 +40,4 @@ public class TransportDto {
         this.drivers = drivers;
         this.routes = routes;
     }
-
-
 }

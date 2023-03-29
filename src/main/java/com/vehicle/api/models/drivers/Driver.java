@@ -31,19 +31,19 @@ public class Driver {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column (name = "qualification")
+    @Column(name = "qualification")
     private DriverQualificationEnum qualificationEnum;
 
     @ManyToMany(mappedBy = "drivers")
     private Set<Transport> transport = new HashSet<>();
 
-    @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable (
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
             name = "drivers_routes",
-            joinColumns = @JoinColumn (name = "driver_id"),
-            inverseJoinColumns = @JoinColumn (name = "route_id")
+            joinColumns = @JoinColumn(name = "driver_id"),
+            inverseJoinColumns = @JoinColumn(name = "route_id")
     )
-    private Set<Route> route =  new HashSet<>();
+    private Set<Route> route = new HashSet<>();
 
     public Driver() {
     }

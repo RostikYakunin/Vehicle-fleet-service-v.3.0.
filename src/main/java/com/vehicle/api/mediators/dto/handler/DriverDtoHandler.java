@@ -48,12 +48,12 @@ public class DriverDtoHandler {
             driver.get().setQualificationEnum(DriverQualificationEnum.valueOf(driverDto.getQualificationEnum().toUpperCase() + "_DRIVER"));
         }
 
-        if (! driverDto.getRoute().isEmpty()) {
+        if (!driverDto.getRoute().isEmpty()) {
             log.info("New route was added to driver");
             driver.get().getRoute().addAll(driverDto.getRoute());
         }
 
-        if (! driverDto.getTransport().isEmpty()) {
+        if (!driverDto.getTransport().isEmpty()) {
             log.info("New transports was added to driver");
             driver.get().getTransport().addAll(driverDto.getTransport());
         }
