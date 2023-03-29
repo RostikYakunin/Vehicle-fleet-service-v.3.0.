@@ -37,9 +37,13 @@ public class Driver {
     @ManyToMany(mappedBy = "drivers")
     private Set<Transport> transport = new HashSet<>();
 
-    @ManyToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "route_id")
-    private Route route;
+    @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable (
+            name = "drivers_routes",
+            joinColumns = @JoinColumn (name = "driver_id"),
+            inverseJoinColumns = @JoinColumn (name = "route_id")
+    )
+    private Set<Route> route =  new HashSet<>();
 
     public Driver() {
     }

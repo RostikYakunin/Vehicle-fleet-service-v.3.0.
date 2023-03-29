@@ -1,6 +1,6 @@
-package com.vehicle.api.dto.handler;
+package com.vehicle.api.mediators.dto.handler;
 
-import com.vehicle.api.dto.TransportDto;
+import com.vehicle.api.mediators.dto.TransportDto;
 import com.vehicle.api.models.drivers.DriverQualificationEnum;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.models.transports.inheritors.Bus;
@@ -27,25 +27,27 @@ public class TransportDtoHandler {
     }
 
     private static TransportDto tramDtoCreator(Tram tram) {
-        TransportDto transportDto;
-        transportDto = new TransportDto();
+        TransportDto transportDto = new TransportDto();
+
         transportDto.setId(tram.getId());
         transportDto.setBrandOfTransport(tram.getBrandOfTransport());
         transportDto.setAmountOfPassengers(tram.getAmountOfPassengers());
         transportDto.setDriverQualificationEnum("TRAM");
         transportDto.setAmountOfRailcar(transportDto.getAmountOfRailcar());
+
         return transportDto;
     }
 
     private static TransportDto busDtoCreator(Bus bus) {
-        TransportDto transportDto;
-        transportDto = new TransportDto();
+        TransportDto transportDto = new TransportDto();
+
         transportDto.setId(bus.getId());
         transportDto.setBrandOfTransport(bus.getBrandOfTransport());
         transportDto.setAmountOfPassengers(bus.getAmountOfPassengers());
         transportDto.setType(bus.getType());
         transportDto.setAmountOfDoors(bus.getAmountOfDoors());
         transportDto.setDriverQualificationEnum("BUS");
+
         return transportDto;
     }
 
@@ -56,7 +58,7 @@ public class TransportDtoHandler {
         } else if (transportDto.getAmountOfRailcar() != null) {
             return tramMapper(transportDto);
         } else {
-            throw new RuntimeException("Transport: " + transportDto + " disagree for exist transports");
+            throw new RuntimeException("Transport: " + transportDto + " cannot mapped to transport");
         }
     }
 
@@ -114,12 +116,12 @@ public class TransportDtoHandler {
         }
 
         if (!transportDto.getDrivers().isEmpty()) {
-
+            log.info("New drivers were added to transport");
             transport.get().getDrivers().addAll(transportDto.getDrivers());
         }
 
         if (!transportDto.getRoutes().isEmpty()) {
-
+            log.info("New routes were added to transport");
             transport.get().getRoute().addAll(transportDto.getRoutes());
         }
 

@@ -1,7 +1,5 @@
-package com.vehicle.api.dto.returned_value;
+package com.vehicle.api.mediators.returned_value;
 
-import com.vehicle.api.models.drivers.DriverQualificationEnum;
-import com.vehicle.api.models.routes.Route;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -21,5 +19,5 @@ public class ReturnedDriver {
 
     private Set<Long> transportId = new HashSet<>();
 
-    private Long routeId;
+    private Set<Long> routeId = new HashSet<>();
 }

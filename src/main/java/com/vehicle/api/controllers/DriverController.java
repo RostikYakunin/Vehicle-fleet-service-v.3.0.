@@ -1,12 +1,11 @@
 package com.vehicle.api.controllers;
 
-import com.vehicle.api.dto.DriverDto;
-import com.vehicle.api.dto.returned_value.Converter;
-import com.vehicle.api.dto.returned_value.ReturnedDriver;
-import com.vehicle.api.dto.returned_value.ReturnedTransport;
+import com.vehicle.api.mediators.dto.DriverDto;
+import com.vehicle.api.mediators.returned_value.converter.ReturnedConverter;
+import com.vehicle.api.mediators.returned_value.ReturnedDriver;
+import com.vehicle.api.mediators.returned_value.ReturnedTransport;
 import com.vehicle.api.models.drivers.Driver;
-import com.vehicle.api.models.transports.Transport;
-import com.vehicle.api.servises.DriverServiceI;
+import com.vehicle.api.services.interfaces.DriverServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +29,8 @@ public class DriverController {
     }
 
     @PostMapping
-    public ResponseEntity<Driver> createDriver(@RequestBody @Valid DriverDto driverDto) {
-        Driver driver = driverService.addDriver(driverDto);
+    public ResponseEntity<ReturnedDriver> createDriver(@RequestBody @Valid DriverDto driverDto) {
+        ReturnedDriver driver = ReturnedConverter.convertToReturnedDriver(driverService.addDriver(driverDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(driver);
     }
 
@@ -41,7 +40,7 @@ public class DriverController {
                 () -> new RuntimeException("Driver with id = " + id + " not found")
         );
 
-        return ResponseEntity.ok(Converter.convertToReturnedDriver(driver));
+        return ResponseEntity.ok(ReturnedConverter.convertToReturnedDriver(driver));
     }
 
     @PutMapping
@@ -64,16 +63,15 @@ public class DriverController {
     @GetMapping("/surname/{surname}")
     public ResponseEntity<List<ReturnedDriver>> findAllDriverBySurname(@PathVariable String surname) {
         List<ReturnedDriver> drivers = driverService.findAllDriverBySurname(surname).stream()
-                .map(Converter::convertToReturnedDriver)
+                .map(ReturnedConverter::convertToReturnedDriver)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(drivers);
     }
 
-    //TODO: test
     @GetMapping("/drivers_on_route/{id}")
     public ResponseEntity<Set<ReturnedDriver>> findAllDriverOnRoute(@PathVariable long id) {
         Set<ReturnedDriver> drivers = driverService.findAllDriverOnRoute(id).stream()
-                .map(Converter::convertToReturnedDriver)
+                .map(ReturnedConverter::convertToReturnedDriver)
                 .collect(Collectors.toSet());
         return ResponseEntity.ok(drivers);
     }
@@ -81,7 +79,7 @@ public class DriverController {
     @GetMapping("/transport_without_driver")
     public ResponseEntity<List<ReturnedTransport>> findAllTransportsWithoutDriver() {
         List<ReturnedTransport> transports = driverService.findAllTransportsWithoutDriver().stream()
-                .map(Converter::convertToReturnedTransport)
+                .map(ReturnedConverter::convertToReturnedTransport)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(transports);
     }
@@ -89,7 +87,7 @@ public class DriverController {
     @GetMapping
     public ResponseEntity<List<ReturnedDriver>> findAllDrivers() {
         List<ReturnedDriver> dr = driverService.findAllDrivers().stream()
-                .map(Converter::convertToReturnedDriver)
+                .map(ReturnedConverter::convertToReturnedDriver)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(new ArrayList<>(dr));
     }

@@ -1,22 +1,20 @@
 package com.vehicle.api.controllers;
 
-import com.vehicle.api.dto.TransportDto;
-import com.vehicle.api.dto.returned_value.Converter;
-import com.vehicle.api.dto.returned_value.ReturnedTransport;
+import com.vehicle.api.mediators.dto.TransportDto;
+import com.vehicle.api.mediators.returned_value.converter.ReturnedConverter;
+import com.vehicle.api.mediators.returned_value.ReturnedTransport;
 import com.vehicle.api.models.transports.Transport;
-import com.vehicle.api.servises.TransportServiceI;
+import com.vehicle.api.services.interfaces.TransportServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping ("/api/transports")
+@RequestMapping("/api/transports")
 public class TransportController {
 
     TransportServiceI transportService;
@@ -27,53 +25,64 @@ public class TransportController {
     }
 
     @PostMapping
-    public ResponseEntity <Transport> createTransport (@RequestBody TransportDto transportDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(transportService.addTransport(transportDto));
+    public ResponseEntity<ReturnedTransport> createTransport(@RequestBody TransportDto transportDto) {
+        ReturnedTransport transport = ReturnedConverter.convertToReturnedTransport(transportService.addTransport(transportDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transport);
     }
 
-    @GetMapping ("/{id}")
-    public ResponseEntity <ReturnedTransport> findTransportById (@PathVariable long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ReturnedTransport> findTransportById(@PathVariable long id) {
         Transport transport = transportService.findTransportById(id)
                 .orElseThrow(() -> new RuntimeException("Transport with " + id + " not found"));
 
-        return ResponseEntity.ok(Converter.convertToReturnedTransport(transport));
+        return ResponseEntity.ok(ReturnedConverter.convertToReturnedTransport(transport));
     }
 
     @PutMapping
-    public ResponseEntity <Transport> updateTransport (@RequestBody TransportDto transportDto) {
-        return ResponseEntity.ok(transportService.updateTransport(transportDto));
+    public ResponseEntity<ReturnedTransport> updateTransport(@RequestBody TransportDto transportDto) {
+        ReturnedTransport transport = ReturnedConverter.convertToReturnedTransport(transportService.updateTransport(transportDto));
+        return ResponseEntity.ok(transport);
     }
 
-    @DeleteMapping ("/{id}")
-    public void deleteTransportById (@PathVariable long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity <String> deleteTransportById(@PathVariable long id) {
         transportService.deleteTransport(id);
+        return ResponseEntity.ok("Transport with id " + id + " was deleted");
     }
 
     @GetMapping
-    public ResponseEntity <List<ReturnedTransport>> findAllTransports () {
-        Set<ReturnedTransport> transports = transportService.findAllTransports().stream().map(Converter::convertToReturnedTransport).collect(Collectors.toSet());
-        return ResponseEntity.ok(new ArrayList<>(transports));
+    public ResponseEntity<List<ReturnedTransport>> findAllTransports() {
+        List<ReturnedTransport> transports = transportService.findAllTransports().stream()
+                .map(ReturnedConverter::convertToReturnedTransport)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(transports);
     }
 
-    @GetMapping ("/by_brand/{brand}")
-    public ResponseEntity <List<Transport>> findTransportByBrand (@PathVariable String brand) {
-        return ResponseEntity.ok(transportService.findTransportByBrand(brand));
+    @GetMapping("/by_brand/{brand}")
+    public ResponseEntity<List<ReturnedTransport>> findTransportByBrand(@PathVariable String brand) {
+        List<ReturnedTransport> transports = transportService.findTransportByBrand(brand).stream()
+                .map(ReturnedConverter::convertToReturnedTransport)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(transports);
     }
 
-    @GetMapping ("/without_driver")
-    public ResponseEntity <List<Transport>> findTransportWithoutDriver () {
-        return ResponseEntity.ok(transportService.findTransportWithoutDriver());
+    @GetMapping("/without_driver")
+    public ResponseEntity<List<ReturnedTransport>> findTransportWithoutDriver() {
+        List<ReturnedTransport> transports = transportService.findTransportWithoutDriver().stream()
+                .map(ReturnedConverter::convertToReturnedTransport)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(transports);
     }
 
-    // TODO: test not work
-    @PutMapping ("/transport_to_route/{transportId}/{routeId}")
-    public void addTransportToRoute (@PathVariable long transportId, @PathVariable long routeId) {
+    @PutMapping("/transport_to_route/{transportId}/{routeId}")
+    public ResponseEntity <String> addTransportToRoute(@PathVariable long transportId, @PathVariable long routeId) {
         transportService.addTransportToRoute(transportId, routeId);
+        return ResponseEntity.ok("Transport with id " + transportId + " was added to route with id " + routeId);
     }
 
-    // TODO: test after finishing previous method
-    @DeleteMapping ("/transport_from_route/{transportId}/{routeId}")
-    public void removeTransportFromRoute(@PathVariable long transportId, @PathVariable long routeId) {
+    @DeleteMapping("/transport_from_route/{transportId}/{routeId}")
+    public ResponseEntity <String> removeTransportFromRoute(@PathVariable long transportId, @PathVariable long routeId) {
         transportService.removeTransportFromRoute(transportId, routeId);
+        return ResponseEntity.ok("Transport with id " + transportId + " was deleted from route with id " + routeId);
     }
 }

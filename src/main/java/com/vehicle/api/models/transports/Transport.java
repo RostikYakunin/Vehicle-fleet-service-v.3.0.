@@ -35,7 +35,7 @@ public abstract class Transport {
 
     @ManyToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable (
-            name = "transport_route",
+            name = "transports_routes",
             joinColumns = @JoinColumn (name = "transport_id"),
             inverseJoinColumns = @JoinColumn (name = "route_id")
     )

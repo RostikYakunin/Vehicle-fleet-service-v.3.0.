@@ -1,23 +1,25 @@
-package com.vehicle.api.servises.implementations;
+package com.vehicle.api.services;
 
-import com.sun.jdi.connect.spi.TransportService;
-import com.vehicle.api.dto.DriverDto;
-import com.vehicle.api.dto.TransportDto;
-import com.vehicle.api.dto.handler.DriverDtoHandler;
-import com.vehicle.api.dto.handler.TransportDtoHandler;
+import com.vehicle.api.mediators.dto.DriverDto;
+import com.vehicle.api.mediators.dto.TransportDto;
+import com.vehicle.api.mediators.dto.handler.DriverDtoHandler;
+import com.vehicle.api.mediators.dto.handler.TransportDtoHandler;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.repos.DriverRepoI;
 import com.vehicle.api.repos.RouteRepoI;
 import com.vehicle.api.repos.TransportRepoI;
-import com.vehicle.api.servises.DriverServiceI;
-import com.vehicle.api.servises.TransportServiceI;
+import com.vehicle.api.services.interfaces.DriverServiceI;
+import com.vehicle.api.services.interfaces.TransportServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -92,12 +94,7 @@ public class DriverServiceImpl implements DriverServiceI {
             return false;
         }
 
-//        if (!transport.get().getDrivers().isEmpty()) {
-//            log.warn("This transport " + transport.get() + " already has driver " + transport.get().getDrivers());
-//            return false;
-//        }
-
-        transport.get().setDrivers(Collections.singleton(driver.get()));
+        transport.get().getDrivers().add(driver.get());
         TransportDto transportDto = TransportDtoHandler.createTransportDto(transport.get());
 
         transportService.updateTransport(transportDto);

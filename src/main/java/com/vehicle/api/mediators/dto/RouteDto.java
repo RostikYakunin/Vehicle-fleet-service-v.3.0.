@@ -1,9 +1,10 @@
-package com.vehicle.api.dto;
+package com.vehicle.api.mediators.dto;
 
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.transports.Transport;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -13,9 +14,9 @@ public class RouteDto {
     private String startOfWay;
     private String endOfWay;
 
-    private Set<Transport> transports;
+    private Set<Transport> transports = new HashSet<>();
 
-    private Set<Driver> drivers;
+    private Set<Driver> drivers = new HashSet<>();
 
     public RouteDto() {
     }

@@ -1,9 +1,8 @@
-package com.vehicle.api.servises;
+package com.vehicle.api.services.interfaces;
 
 
-import com.vehicle.api.dto.DriverDto;
+import com.vehicle.api.mediators.dto.DriverDto;
 import com.vehicle.api.models.drivers.Driver;
-import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
 import org.springframework.stereotype.Service;
 

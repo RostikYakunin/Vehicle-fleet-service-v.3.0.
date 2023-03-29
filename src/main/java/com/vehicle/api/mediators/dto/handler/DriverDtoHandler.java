@@ -1,6 +1,6 @@
-package com.vehicle.api.dto.handler;
+package com.vehicle.api.mediators.dto.handler;
 
-import com.vehicle.api.dto.DriverDto;
+import com.vehicle.api.mediators.dto.DriverDto;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.drivers.DriverQualificationEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +46,16 @@ public class DriverDtoHandler {
         if (driverDto.getQualificationEnum() != null) {
             log.info("Driver`s name was updated from " + driver.get().getQualificationEnum() + " to " + driverDto.getQualificationEnum());
             driver.get().setQualificationEnum(DriverQualificationEnum.valueOf(driverDto.getQualificationEnum().toUpperCase() + "_DRIVER"));
+        }
+
+        if (! driverDto.getRoute().isEmpty()) {
+            log.info("New route was added to driver");
+            driver.get().getRoute().addAll(driverDto.getRoute());
+        }
+
+        if (! driverDto.getTransport().isEmpty()) {
+            log.info("New transports was added to driver");
+            driver.get().getTransport().addAll(driverDto.getTransport());
         }
 
         return driver.get();

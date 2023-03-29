@@ -1,12 +1,12 @@
-package com.vehicle.api.servises.implementations;
+package com.vehicle.api.services;
 
-import com.vehicle.api.dto.RouteDto;
-import com.vehicle.api.dto.handler.RouteDtoHandler;
+import com.vehicle.api.mediators.dto.RouteDto;
+import com.vehicle.api.mediators.dto.handler.RouteDtoHandler;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.repos.DriverRepoI;
 import com.vehicle.api.repos.RouteRepoI;
 import com.vehicle.api.repos.TransportRepoI;
-import com.vehicle.api.servises.RouteServiceI;
+import com.vehicle.api.services.interfaces.RouteServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +50,7 @@ public class RouteServiceImpl implements RouteServiceI {
     @Override
     public Route updateRoute(RouteDto routeDto) {
         Optional<Route> foundRoute = routeRepo.findById(routeDto.getId());
+
         Route updatedRoute = RouteDtoHandler.mappingDtoToRouteMethodUpdate(routeDto, foundRoute);
         log.info("Route updated successful");
 

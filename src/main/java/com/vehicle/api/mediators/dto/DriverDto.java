@@ -1,6 +1,11 @@
-package com.vehicle.api.dto;
+package com.vehicle.api.mediators.dto;
 
+import com.vehicle.api.models.routes.Route;
+import com.vehicle.api.models.transports.Transport;
 import lombok.Data;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class DriverDto {
@@ -10,6 +15,10 @@ public class DriverDto {
     private String surnameOfDriver;
     private String phoneNumber;
     private String qualificationEnum;
+
+    private Set<Transport> transport = new HashSet<>();
+
+    private Set<Route> route = new HashSet<>();
 
     public DriverDto() {
     }

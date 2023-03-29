@@ -1,8 +1,8 @@
-package com.vehicle.api.servises.implementations;
+package com.vehicle.api.services;
 
-import com.vehicle.api.dto.TransportDto;
-import com.vehicle.api.dto.handler.RouteDtoHandler;
-import com.vehicle.api.dto.handler.TransportDtoHandler;
+import com.vehicle.api.mediators.dto.TransportDto;
+import com.vehicle.api.mediators.dto.handler.RouteDtoHandler;
+import com.vehicle.api.mediators.dto.handler.TransportDtoHandler;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.models.transports.inheritors.Bus;
@@ -10,14 +10,17 @@ import com.vehicle.api.models.transports.inheritors.Tram;
 import com.vehicle.api.repos.DriverRepoI;
 import com.vehicle.api.repos.RouteRepoI;
 import com.vehicle.api.repos.TransportRepoI;
-import com.vehicle.api.servises.RouteServiceI;
-import com.vehicle.api.servises.TransportServiceI;
+import com.vehicle.api.services.interfaces.RouteServiceI;
+import com.vehicle.api.services.interfaces.TransportServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -71,10 +74,10 @@ public class TransportServiceImpl implements TransportServiceI {
 
         if (transportDto.getDriverQualificationEnum().equalsIgnoreCase("bus")) {
             bus = (Bus) TransportDtoHandler.mappingDtoToTransportMethodUpdate(transportDto, foundTransport);
-            return bus;
+            return transportRepo.save(bus);
         } else {
             tram = (Tram) TransportDtoHandler.mappingDtoToTransportMethodUpdate(transportDto, foundTransport);
-            return tram;
+            return transportRepo.save(tram);
         }
     }
 
@@ -112,43 +115,58 @@ public class TransportServiceImpl implements TransportServiceI {
 
     @Override
     public boolean addTransportToRoute(long transportId, long routeId) {
-        if (transportRepo.findById(transportId).isEmpty() || routeRepo.findById(routeId).isEmpty()) {
+        Optional<Route> route = routeRepo.findById(routeId);
+        Optional<Transport> transport = transportRepo.findById(transportId);
+
+        if (transport.isEmpty() || route.isEmpty()) {
             log.warn("Transport or route cannot be null");
             return false;
         }
 
-        Route route = routeRepo.findById(routeId).get();
-        Transport transport = transportRepo.findById(transportId).get();
+        transport.get().getRoute().add(route.get());
+        updateTransport(TransportDtoHandler.createTransportDto(transport.get()));
 
-        route.getTransports().add(transport);
-
-        log.info("On route " + route + " was added transport " + transport);
-        routeService.updateRoute(RouteDtoHandler.createRouteDto(route));
         log.info("Route was update " + route);
         return true;
     }
     @Override
     public boolean removeTransportFromRoute(long transportId, long routeId) {
-        if (transportRepo.findById(transportId).isEmpty() || routeRepo.findById(routeId).isEmpty()) {
+        Optional<Route> route = routeRepo.findById(routeId);
+        Optional<Transport> transport = transportRepo.findById(transportId);
+
+        if (transport.isEmpty() || route.isEmpty()) {
             log.warn("Transport or route cannot be null");
             return false;
         }
 
-        Transport transport = transportRepo.findById(transportId).get();
-        Route route = routeRepo.findById(routeId).get();
+        transport.get().getRoute().remove(route.get());
+        updateTransport(TransportDtoHandler.createTransportDto(transport.get()));
 
-        for (Transport tr : route.getTransports()) {
-            if (tr.equals(transport)) {
-                tr = null;
-                log.info("Transport " + transport + " was deleted from route " + route);
-                routeService.updateRoute(RouteDtoHandler.createRouteDto(route));
-                return true;
-            } else {
-                log.warn("Transport " + transport + " not found on route " + route);
-                return false;
-            }
-        }
+        log.info("Transport was removed from route");
 
-        return false;
+
+
+//        Set<Transport> transports = route.getTransports().stream()
+//                .filter(tr -> tr.equals(transport))
+//                .map(tr -> tr = null)
+//                .collect(Collectors.toSet());
+//
+//        route.setTransports(new HashSet<>(transports));
+//        routeRepo.save(route);
+
+//        for (Transport tr : route.getTransports()) {
+//            if (tr.equals(transport)) {
+//                tr = null;
+//                log.info("Transport " + transport + " was deleted from route " + route);
+//                routeRepo.save(route);
+//                //routeService.updateRoute(RouteDtoHandler.createRouteDto(route));
+//                return true;
+//            } else {
+//                log.warn("Transport " + transport + " not found on route " + route);
+//                return false;
+//            }
+//        }
+
+        return true;
     }
 }

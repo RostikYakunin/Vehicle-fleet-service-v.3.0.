@@ -1,7 +1,6 @@
-package com.vehicle.api.servises;
+package com.vehicle.api.services.interfaces;
 
-import com.vehicle.api.dto.TransportDto;
-import com.vehicle.api.models.routes.Route;
+import com.vehicle.api.mediators.dto.TransportDto;
 import com.vehicle.api.models.transports.Transport;
 
 import java.util.List;
