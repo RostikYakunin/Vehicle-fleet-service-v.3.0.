@@ -54,6 +54,13 @@ public class Driver {
         this.phoneNumber = phoneNumber;
     }
 
+    public Driver(String nameOfDriver, String surnameOfDriver, String phoneNumber, DriverQualificationEnum qualificationEnum) {
+        this.nameOfDriver = nameOfDriver;
+        this.surnameOfDriver = surnameOfDriver;
+        this.phoneNumber = phoneNumber;
+        this.qualificationEnum = qualificationEnum;
+    }
+
     @Override
     public String toString() {
         return "\nDriver ID = " + id + ", name: " + nameOfDriver + ", surname: " + surnameOfDriver + ", phone number: " + phoneNumber +
