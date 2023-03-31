@@ -40,12 +40,14 @@ public class DriverController {
                 () -> new RuntimeException("Driver with id = " + id + " not found")
         );
 
-        return ResponseEntity.ok(ReturnedConverter.convertToReturnedDriver(driver));
+        ReturnedDriver returnedDriver = ReturnedConverter.convertToReturnedDriver(driver);
+        return ResponseEntity.ok(returnedDriver);
     }
 
     @PutMapping
     public ResponseEntity<Driver> updateDriver(@RequestBody @Valid DriverDto driverDto) {
-        return ResponseEntity.ok(driverService.updateDriver(driverDto));
+        Driver updateDriver = driverService.updateDriver(driverDto);
+        return ResponseEntity.ok(updateDriver);
     }
 
     @DeleteMapping("/{id}")

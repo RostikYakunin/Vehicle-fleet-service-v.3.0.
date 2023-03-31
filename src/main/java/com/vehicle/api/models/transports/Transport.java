@@ -25,6 +25,9 @@ public abstract class Transport {
     @Column(name = "amount_of_passengers")
     private Integer amountOfPassengers;
 
+    @Enumerated(EnumType.STRING)
+    private DriverQualificationEnum driverQualificationEnum;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "transports_drivers",
@@ -40,11 +43,13 @@ public abstract class Transport {
             inverseJoinColumns = @JoinColumn(name = "route_id")
     )
     private Set<Route> route = new HashSet<>();
-
-    @Enumerated(EnumType.STRING)
-    private DriverQualificationEnum driverQualificationEnum;
-
     public Transport() {
+    }
+
+    public Transport(String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum) {
+        this.brandOfTransport = brandOfTransport;
+        this.amountOfPassengers = amountOfPassengers;
+        this.driverQualificationEnum = driverQualificationEnum;
     }
 
     @Override
