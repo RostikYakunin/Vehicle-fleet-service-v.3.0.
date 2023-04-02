@@ -1,5 +1,6 @@
 package com.vehicle.api.models.transports.inheritors;
 
+import com.vehicle.api.models.drivers.DriverQualificationEnum;
 import com.vehicle.api.models.transports.Transport;
 import lombok.Data;
 
@@ -12,6 +13,18 @@ public class Tram extends Transport {
 
     @Column(name = "railcar_amount")
     private Integer amountOfRailcar;
+
+    public Tram() {
+    }
+
+    public Tram(String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum) {
+        super(brandOfTransport, amountOfPassengers, driverQualificationEnum);
+    }
+
+    public Tram(String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum, Integer amountOfRailcar) {
+        super(brandOfTransport, amountOfPassengers, driverQualificationEnum);
+        this.amountOfRailcar = amountOfRailcar;
+    }
 
     @Override
     public String toString() {

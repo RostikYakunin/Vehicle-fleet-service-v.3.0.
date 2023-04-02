@@ -9,6 +9,14 @@ import java.util.Set;
 public class ReturnedRoute {
     private long id;
 
+    public ReturnedRoute() {
+    }
+
+    public ReturnedRoute(String startOfWay, String endOfWay) {
+        this.startOfWay = startOfWay;
+        this.endOfWay = endOfWay;
+    }
+
     private String startOfWay;
 
     private String endOfWay;

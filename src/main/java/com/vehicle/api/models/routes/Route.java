@@ -32,6 +32,12 @@ public class Route {
     public Route() {
     }
 
+    public Route(long id, String startOfWay, String endOfWay) {
+        this.id = id;
+        this.startOfWay = startOfWay;
+        this.endOfWay = endOfWay;
+    }
+
     public Route(String startOfWay, String endOfWay) {
         this.startOfWay = startOfWay;
         this.endOfWay = endOfWay;

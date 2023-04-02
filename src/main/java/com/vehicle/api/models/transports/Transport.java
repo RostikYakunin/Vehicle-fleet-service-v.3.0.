@@ -24,7 +24,6 @@ public abstract class Transport {
 
     @Column(name = "amount_of_passengers")
     private Integer amountOfPassengers;
-
     @Enumerated(EnumType.STRING)
     private DriverQualificationEnum driverQualificationEnum;
 
@@ -47,6 +46,13 @@ public abstract class Transport {
     }
 
     public Transport(String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum) {
+        this.brandOfTransport = brandOfTransport;
+        this.amountOfPassengers = amountOfPassengers;
+        this.driverQualificationEnum = driverQualificationEnum;
+    }
+
+    public Transport(Long id, String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum) {
+        this.id = id;
         this.brandOfTransport = brandOfTransport;
         this.amountOfPassengers = amountOfPassengers;
         this.driverQualificationEnum = driverQualificationEnum;

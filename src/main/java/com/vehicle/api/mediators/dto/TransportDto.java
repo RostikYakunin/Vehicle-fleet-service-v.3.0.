@@ -22,6 +22,14 @@ public class TransportDto {
     public TransportDto() {
     }
 
+    public TransportDto(String brandOfTransport, Integer amountOfPassengers, String driverQualificationEnum, String type, Integer amountOfDoors) {
+        this.brandOfTransport = brandOfTransport;
+        this.amountOfPassengers = amountOfPassengers;
+        this.driverQualificationEnum = driverQualificationEnum;
+        this.type = type;
+        this.amountOfDoors = amountOfDoors;
+    }
+
     public TransportDto(String brandOfTransport, Integer amountOfPassengers, String driverQualificationEnum, Integer amountOfRailcar, Set<Driver> drivers, Set<Route> routes) {
         this.brandOfTransport = brandOfTransport;
         this.amountOfPassengers = amountOfPassengers;

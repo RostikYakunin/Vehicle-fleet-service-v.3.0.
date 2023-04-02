@@ -70,7 +70,7 @@ public class ReturnedConverter {
                     .map(Transport::getId)
                     .collect(Collectors.toSet());
 
-            returnedDriver.setTransportId(transportId);
+            returnedDriver.getTransportId().addAll(transportId);
         }
 
         return returnedDriver;

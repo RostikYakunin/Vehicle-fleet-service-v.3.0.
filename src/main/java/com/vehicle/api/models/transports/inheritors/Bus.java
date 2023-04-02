@@ -29,6 +29,12 @@ public class Bus extends Transport {
         this.amountOfDoors = amountOfDoors;
     }
 
+    public Bus(Long id, String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum, String type, Integer amountOfDoors) {
+        super(id, brandOfTransport, amountOfPassengers, driverQualificationEnum);
+        this.type = type;
+        this.amountOfDoors = amountOfDoors;
+    }
+
     @NotBlank(message = "Error, bus`s type cannot be empty")
     @Column(name = "bus_type")
     private String type;

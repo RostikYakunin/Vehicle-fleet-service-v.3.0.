@@ -23,6 +23,14 @@ public class DriverDto {
     public DriverDto() {
     }
 
+    public DriverDto(Long id, String nameOfDriver, String surnameOfDriver, String phoneNumber, String qualificationEnum) {
+        this.id = id;
+        this.nameOfDriver = nameOfDriver;
+        this.surnameOfDriver = surnameOfDriver;
+        this.phoneNumber = phoneNumber;
+        this.qualificationEnum = qualificationEnum;
+    }
+
     public DriverDto(String nameOfDriver, String surnameOfDriver, String phoneNumber, String qualificationEnum) {
         this.nameOfDriver = nameOfDriver;
         this.surnameOfDriver = surnameOfDriver;
