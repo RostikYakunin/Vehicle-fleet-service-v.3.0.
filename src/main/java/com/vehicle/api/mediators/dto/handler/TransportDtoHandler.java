@@ -33,7 +33,7 @@ public class TransportDtoHandler {
         transportDto.setBrandOfTransport(tram.getBrandOfTransport());
         transportDto.setAmountOfPassengers(tram.getAmountOfPassengers());
         transportDto.setDriverQualificationEnum("TRAM");
-        transportDto.setAmountOfRailcar(transportDto.getAmountOfRailcar());
+        transportDto.setAmountOfRailcar(tram.getAmountOfRailcar());
 
         return transportDto;
     }
@@ -88,11 +88,6 @@ public class TransportDtoHandler {
     public static Transport mappingDtoToTransportMethodUpdate(TransportDto transportDto, Optional<Transport> transport) {
         Bus bus = null;
         Tram tram = null;
-
-        if (transport.isEmpty()) {
-            log.error("Error, transport with id = " + transportDto.getId() + " not found");
-            throw new RuntimeException("Error, transport with id = " + transportDto.getId() + " not found");
-        }
 
         if (transport.get().getDriverQualificationEnum() == DriverQualificationEnum.BUS_DRIVER) {
             bus = (Bus) transport.get();

@@ -23,11 +23,6 @@ public class DriverDtoHandler {
     }
 
     public static Driver mappingDtoToDriverMethodUpdate(DriverDto driverDto, Optional<Driver> driver) {
-        if (driver.isEmpty()) {
-            log.error("Error, driver with id = " + driverDto.getId() + " not found");
-            throw new RuntimeException("Error, driver with id = " + driverDto.getId() + " not found");
-        }
-
         if (driverDto.getNameOfDriver() != null) {
             log.info("Driver`s name was updated from " + driver.get().getNameOfDriver() + " to " + driverDto.getNameOfDriver());
             driver.get().setNameOfDriver(driverDto.getNameOfDriver());

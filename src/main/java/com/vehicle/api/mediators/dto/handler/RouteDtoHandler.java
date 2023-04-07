@@ -30,11 +30,6 @@ public class RouteDtoHandler {
     }
 
     public static Route mappingDtoToRouteMethodUpdate(RouteDto routeDto, Optional<Route> route) {
-        if (route.isEmpty()) {
-            log.error("Error, route with id = " + routeDto.getId() + " not found");
-            throw new RuntimeException("Error, route with id = " + routeDto.getId() + " not found");
-        }
-
         if (routeDto.getStartOfWay() != null) {
             log.info("Route`s start way was updated from " + route.get().getStartOfWay() + " to " + routeDto.getStartOfWay());
             route.get().setStartOfWay(routeDto.getStartOfWay());

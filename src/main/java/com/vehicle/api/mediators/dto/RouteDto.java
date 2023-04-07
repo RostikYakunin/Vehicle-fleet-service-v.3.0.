@@ -21,6 +21,12 @@ public class RouteDto {
     public RouteDto() {
     }
 
+    public RouteDto(long id, String startOfWay, String endOfWay) {
+        this.id = id;
+        this.startOfWay = startOfWay;
+        this.endOfWay = endOfWay;
+    }
+
     public RouteDto(String startOfWay, String endOfWay) {
         this.startOfWay = startOfWay;
         this.endOfWay = endOfWay;

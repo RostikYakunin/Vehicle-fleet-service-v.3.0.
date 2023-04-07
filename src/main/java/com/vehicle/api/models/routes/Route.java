@@ -23,13 +23,17 @@ public class Route {
     @Column(name = "end_way")
     private String endOfWay;
 
-    @ManyToMany(mappedBy = "route")
+    @ManyToMany(mappedBy = "route", fetch = FetchType.EAGER)
     private Set<Transport> transports = new HashSet<>();
 
-    @ManyToMany(mappedBy = "route")
+    @ManyToMany(mappedBy = "route", fetch = FetchType.EAGER)
     private Set<Driver> drivers = new HashSet<>();
 
     public Route() {
+    }
+
+    public Route(long id) {
+        this.id = id;
     }
 
     public Route(long id, String startOfWay, String endOfWay) {

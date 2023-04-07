@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class DriverDtoHandlerTest {
@@ -36,7 +36,7 @@ class DriverDtoHandlerTest {
     }
 
     @Test
-    void mappingDtoToDriverMethodAdd() {
+    void mappingDtoToDriverMethodAdd_inputDriverDtoAndReturnDriver() {
         //given
         Driver expectedDriver = new Driver("testName", "testSurname",
                 "testPhoneNumber", DriverQualificationEnum.BUS_DRIVER);
@@ -53,9 +53,8 @@ class DriverDtoHandlerTest {
         assertEquals(expectedDriver.getSurnameOfDriver(), actualDriver.getSurnameOfDriver());
         assertEquals(expectedDriver.getPhoneNumber(), actualDriver.getPhoneNumber());
     }
-
     @Test
-    void mappingDtoToDriverMethodUpdate() {
+    void mappingDtoToDriverMethodUpdate_inputDriverDtoAndReturnDriver() {
         //given
         Driver expectedDriver = new Driver(1L, "testName", "testSurname",
                 "testPhoneNumber", DriverQualificationEnum.BUS_DRIVER);
@@ -68,5 +67,19 @@ class DriverDtoHandlerTest {
 
         //then
         assertEquals(expectedDriver, actualDriver);
+    }
+
+    @Test
+    void mappingDtoToDriverMethodUpdate_inputNullAndExpectRuntimeException() {
+        //given
+        Driver driver = null;
+
+        //when
+        //then
+        assertThrows(
+                RuntimeException.class,
+                () -> DriverDtoHandler.mappingDtoToDriverMethodUpdate(testDriverDto, Optional.of(driver)),
+                "Expected runtime exception"
+        );
     }
 }

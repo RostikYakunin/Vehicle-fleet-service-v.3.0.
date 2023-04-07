@@ -17,8 +17,9 @@ public class Tram extends Transport {
     public Tram() {
     }
 
-    public Tram(String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum) {
-        super(brandOfTransport, amountOfPassengers, driverQualificationEnum);
+    public Tram(Long id, String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum, Integer amountOfRailcar) {
+        super(id, brandOfTransport, amountOfPassengers, driverQualificationEnum);
+        this.amountOfRailcar = amountOfRailcar;
     }
 
     public Tram(String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum, Integer amountOfRailcar) {

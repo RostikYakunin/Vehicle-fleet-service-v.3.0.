@@ -36,8 +36,8 @@ public class DriverController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ReturnedDriver> findDriverById(@PathVariable long id) {
-        Driver driver = driverService.findDriverById(id).orElseThrow(
-                () -> new RuntimeException("Driver with id = " + id + " not found")
+        Driver driver = driverService.findDriverById(id)
+                .orElseThrow(() -> new RuntimeException("Driver with id = " + id + " not found")
         );
 
         ReturnedDriver returnedDriver = ReturnedConverter.convertToReturnedDriver(driver);

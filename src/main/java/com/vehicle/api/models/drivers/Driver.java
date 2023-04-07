@@ -7,7 +7,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -49,10 +48,8 @@ public class Driver {
     public Driver() {
     }
 
-    public Driver(String nameOfDriver, String surnameOfDriver, String phoneNumber) {
-        this.nameOfDriver = nameOfDriver;
-        this.surnameOfDriver = surnameOfDriver;
-        this.phoneNumber = phoneNumber;
+    public Driver(Long id) {
+        this.id = id;
     }
 
     public Driver(Long id, String nameOfDriver, String surnameOfDriver, String phoneNumber, DriverQualificationEnum qualificationEnum) {
@@ -74,18 +71,5 @@ public class Driver {
     public String toString() {
         return "\nDriver ID = " + id + ", name: " + nameOfDriver + ", surname: " + surnameOfDriver + ", phone number: " + phoneNumber +
                 ", qualification: " + this.getQualificationEnum();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Driver driver = (Driver) o;
-        return Objects.equals(id, driver.id) && nameOfDriver.equals(driver.nameOfDriver) && surnameOfDriver.equals(driver.surnameOfDriver) && phoneNumber.equals(driver.phoneNumber) && qualificationEnum == driver.qualificationEnum && Objects.equals(transport, driver.transport) && Objects.equals(route, driver.route);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nameOfDriver, surnameOfDriver, phoneNumber, qualificationEnum, transport, route);
     }
 }

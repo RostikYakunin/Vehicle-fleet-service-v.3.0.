@@ -14,14 +14,6 @@ public class Bus extends Transport {
     public Bus() {
     }
 
-    public Bus(String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum) {
-        super(brandOfTransport, amountOfPassengers, driverQualificationEnum);
-    }
-
-    public Bus(String type, Integer amountOfDoors) {
-        this.type = type;
-        this.amountOfDoors = amountOfDoors;
-    }
 
     public Bus(String brandOfTransport, Integer amountOfPassengers, DriverQualificationEnum driverQualificationEnum, String type, Integer amountOfDoors) {
         super(brandOfTransport, amountOfPassengers, driverQualificationEnum);
