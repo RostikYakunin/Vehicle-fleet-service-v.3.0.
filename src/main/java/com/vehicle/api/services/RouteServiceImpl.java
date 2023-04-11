@@ -67,7 +67,7 @@ public class RouteServiceImpl implements RouteServiceI {
         }
 
         if (!foundRoute.get().getTransports().isEmpty()) {
-            log.warn("This route cannot be deleted, route has assigned transport: " + foundRoute.get().getTransports());
+            log.warn("This route cannot be deleted, route has assigned transport: " + foundRoute.get());
             return false;
         }
 

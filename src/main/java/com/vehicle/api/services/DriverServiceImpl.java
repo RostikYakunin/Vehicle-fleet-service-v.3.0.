@@ -5,6 +5,7 @@ import com.vehicle.api.mediators.dto.TransportDto;
 import com.vehicle.api.mediators.dto.handler.DriverDtoHandler;
 import com.vehicle.api.mediators.dto.handler.TransportDtoHandler;
 import com.vehicle.api.models.drivers.Driver;
+import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.repos.DriverRepoI;
 import com.vehicle.api.repos.RouteRepoI;
@@ -69,17 +70,19 @@ public class DriverServiceImpl implements DriverServiceI {
 
     @Override
     public boolean deleteDriverById(Long id) {
-        if (driverRepo.findById(id).isEmpty()) {
+        Optional<Driver> foundDriver = driverRepo.findById(id);
+
+        if (foundDriver.isEmpty()) {
             log.warn("Error, driver with id = " + id + " not found");
             return false;
         }
 
-        if (!driverRepo.findById(id).get().getTransport().isEmpty()) {
-            log.warn("This driver can`t be deleted, driver is assigned to the transport = " + driverRepo.findById(id).get().getTransport().toString());
+        if (!foundDriver.get().getTransport().isEmpty()) {
+            log.warn("This driver can`t be deleted, driver is assigned to the transport = " + foundDriver.get());
             return false;
         }
 
-        log.info("Driver : " + driverRepo.findById(id) + " was deleted");
+        log.info("Driver : " + foundDriver + " was deleted");
         driverRepo.deleteById(id);
         return true;
     }
@@ -113,11 +116,14 @@ public class DriverServiceImpl implements DriverServiceI {
 
     @Override
     public Set<Driver> findAllDriverOnRoute(long routeId) {
-        if (routeRepo.findById(routeId).isEmpty()) {
+        Optional<Route> foundRoute = routeRepo.findById(routeId);
+
+        if (foundRoute.isEmpty()) {
             log.warn("Route with id= " + routeId + " not found");
             return Collections.emptySet();
         }
-        return routeRepo.findById(routeId).get().getDrivers();
+
+        return foundRoute.get().getDrivers();
     }
 
     @Override
