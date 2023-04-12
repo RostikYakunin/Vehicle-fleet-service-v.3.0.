@@ -46,7 +46,7 @@ public class TransportController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTransportById(@PathVariable long id) {
-        transportService.deleteTransport(id);
+        transportService.deleteTransportById(id);
         return ResponseEntity.ok("Transport with id " + id + " was deleted");
     }
 

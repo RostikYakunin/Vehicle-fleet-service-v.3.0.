@@ -179,7 +179,7 @@ class TransportControllerTest {
     void delete_deleteTransportById_returnsNothingWith200_Ok() throws Exception {
         //given
         //when
-        when(transportService.deleteTransport(anyLong())).thenReturn(true);
+        when(transportService.deleteTransportById(anyLong())).thenReturn(true);
 
         //then
         mockMvc.perform(
@@ -188,7 +188,7 @@ class TransportControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        verify(transportService, times(1)).deleteTransport(longArgumentCaptor.capture());
+        verify(transportService, times(1)).deleteTransportById(longArgumentCaptor.capture());
     }
 
     @Test

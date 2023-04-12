@@ -21,31 +21,25 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class TransportServiceImpl implements TransportServiceI {
-
-    private final DriverRepoI driverRepo;
     private final TransportRepoI transportRepo;
     private final RouteRepoI routeRepo;
-    private final RouteServiceI routeService;
 
     @Autowired
-    public TransportServiceImpl(DriverRepoI driverRepo, TransportRepoI transportRepo, RouteRepoI routeRepo,
-                                RouteServiceI routeService) {
-        this.driverRepo = driverRepo;
+    public TransportServiceImpl(TransportRepoI transportRepo, RouteRepoI routeRepo) {
         this.transportRepo = transportRepo;
         this.routeRepo = routeRepo;
-        this.routeService = routeService;
     }
 
     @Override
     public Transport addTransport(TransportDto transportDto) {
         if (transportDto.getDriverQualificationEnum().equalsIgnoreCase("bus")) {
             Bus bus = (Bus) TransportDtoHandler.mappingDtoToTransportMethodAdd(transportDto);
-            log.info("Transport was added to db " + bus);
+            log.info("Bus was added to db " + bus);
 
             return transportRepo.save(bus);
         } else {
             Tram tram = (Tram) TransportDtoHandler.mappingDtoToTransportMethodAdd(transportDto);
-            log.info("Transport was added to db " + tram);
+            log.info("Tram was added to db " + tram);
 
             return transportRepo.save(tram);
         }
@@ -53,12 +47,14 @@ public class TransportServiceImpl implements TransportServiceI {
 
     @Override
     public Optional<Transport> findTransportById(Long id) {
-        if (transportRepo.findById(id).isEmpty()) {
+        Optional<Transport> foundTransport = transportRepo.findById(id);
+
+        if (foundTransport.isEmpty()) {
             log.warn("Error, transport with id = " + id + " not found");
             return Optional.empty();
         }
 
-        return transportRepo.findById(id);
+        return foundTransport;
     }
 
     @Override
@@ -78,14 +74,16 @@ public class TransportServiceImpl implements TransportServiceI {
     }
 
     @Override
-    public boolean deleteTransport(Long id) {
-        if (transportRepo.findById(id).isEmpty()) {
+    public boolean deleteTransportById(Long id) {
+        Optional<Transport> foundTransport = transportRepo.findById(id);
+
+        if (foundTransport.isEmpty()) {
             log.warn("Error, transport with id = " + id + " not found");
             return false;
         }
 
-        if (!transportRepo.findById(id).get().getDrivers().isEmpty()) {
-            log.warn("This transport can`t be deleted, transport has the driver = " + transportRepo.findById(id).get().getDrivers());
+        if (!foundTransport.get().getDrivers().isEmpty()) {
+            log.warn("This transport can`t be deleted, transport has the driver = " + foundTransport.get());
             return false;
         }
 
@@ -120,7 +118,9 @@ public class TransportServiceImpl implements TransportServiceI {
         }
 
         transport.get().getRoute().add(route.get());
-        updateTransport(TransportDtoHandler.createTransportDto(transport.get()));
+
+        TransportDto transportDto = TransportDtoHandler.createTransportDto(transport.get());
+        updateTransport(transportDto);
 
         log.info("Route was update " + route);
         return true;
@@ -137,7 +137,8 @@ public class TransportServiceImpl implements TransportServiceI {
         }
 
         transport.get().getRoute().remove(route.get());
-        updateTransport(TransportDtoHandler.createTransportDto(transport.get()));
+        TransportDto transportDto = TransportDtoHandler.createTransportDto(transport.get());
+        updateTransport(transportDto);
 
         log.info("Transport was removed from route");
         return true;

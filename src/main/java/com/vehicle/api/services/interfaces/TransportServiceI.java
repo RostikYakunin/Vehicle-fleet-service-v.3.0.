@@ -14,7 +14,7 @@ public interface TransportServiceI {
 
     Transport updateTransport(TransportDto transportDto);
 
-    boolean deleteTransport(Long id);
+    boolean deleteTransportById(Long id);
 
     List<Transport> findAllTransports();
 

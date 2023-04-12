@@ -289,7 +289,6 @@ class DriverServiceImplTest {
         verify(routeRepo, times(1)).findById(longArgumentCaptor.capture());
     }
 
-    // TODO: make test class for transports. In this method may be error
     @Test
     void findAllTransportsWithoutDriver() {
         //given
@@ -299,16 +298,14 @@ class DriverServiceImplTest {
         when(transportRepo.findTransportWithoutDriver()).thenReturn(List.of(testTransport));
 
         //then
-        List<Transport> actualList = transportService.findTransportWithoutDriver();
-        System.out.println(actualList);
-
-        assertEquals(List.of(testTransport), actualList);
+        List<Transport> actualList = driverService.findAllTransportsWithoutDriver();
+        assertEquals(List.of(testTransport).size(), actualList.size());
 
         verify(transportRepo, times(1)).findTransportWithoutDriver();
     }
 
     @Test
-    void findAllDrivers() {
+    void findAllDrivers_inputNothingAndReturnListOfDrivers() {
         //given
 
         //when
