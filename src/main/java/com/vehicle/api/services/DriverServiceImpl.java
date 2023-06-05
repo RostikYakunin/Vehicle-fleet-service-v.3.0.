@@ -1,9 +1,9 @@
 package com.vehicle.api.services;
 
-import com.vehicle.api.mediators.dto.DriverDto;
-import com.vehicle.api.mediators.dto.TransportDto;
-import com.vehicle.api.mediators.dto.handler.DriverDtoHandler;
-import com.vehicle.api.mediators.dto.handler.TransportDtoHandler;
+import com.vehicle.api.dtos.dto.DriverDto;
+import com.vehicle.api.dtos.dto.TransportDto;
+import com.vehicle.api.dtos.dto.handler.DriverDtoHandler;
+import com.vehicle.api.dtos.dto.handler.TransportDtoHandler;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
@@ -14,6 +14,8 @@ import com.vehicle.api.services.interfaces.DriverServiceI;
 import com.vehicle.api.services.interfaces.TransportServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -134,5 +136,10 @@ public class DriverServiceImpl implements DriverServiceI {
     @Override
     public List<Driver> findAllDrivers() {
         return (List<Driver>) driverRepo.findAll();
+    }
+
+    @Override
+    public Page<Driver> getAllPages(Pageable pageable) {
+        return driverRepo.findAll(pageable);
     }
 }

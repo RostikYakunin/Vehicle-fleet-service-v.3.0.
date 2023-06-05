@@ -1,6 +1,6 @@
-package com.vehicle.api.mediators.dto.handler;
+package com.vehicle.api.dtos.dto.handler;
 
-import com.vehicle.api.mediators.dto.TransportDto;
+import com.vehicle.api.dtos.dto.TransportDto;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.drivers.DriverQualificationEnum;
 import com.vehicle.api.models.routes.Route;

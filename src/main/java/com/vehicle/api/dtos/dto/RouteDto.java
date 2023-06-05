@@ -1,4 +1,4 @@
-package com.vehicle.api.mediators.dto;
+package com.vehicle.api.dtos.dto;
 
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.transports.Transport;

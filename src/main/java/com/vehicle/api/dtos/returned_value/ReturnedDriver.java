@@ -1,4 +1,4 @@
-package com.vehicle.api.mediators.returned_value;
+package com.vehicle.api.dtos.returned_value;
 
 import lombok.Data;
 

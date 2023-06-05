@@ -1,7 +1,7 @@
 package com.vehicle.api.services;
 
-import com.vehicle.api.mediators.dto.RouteDto;
-import com.vehicle.api.mediators.dto.handler.RouteDtoHandler;
+import com.vehicle.api.dtos.dto.RouteDto;
+import com.vehicle.api.dtos.dto.handler.RouteDtoHandler;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.repos.DriverRepoI;
 import com.vehicle.api.repos.RouteRepoI;

@@ -1,11 +1,13 @@
 package com.vehicle.api.services.interfaces;
 
-import com.vehicle.api.mediators.dto.TransportDto;
+import com.vehicle.api.dtos.dto.TransportDto;
 import com.vehicle.api.models.transports.Transport;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public interface TransportServiceI {
 
     Transport addTransport(TransportDto transportDto);

@@ -1,9 +1,11 @@
 package com.vehicle.api.services.interfaces;
 
 
-import com.vehicle.api.mediators.dto.DriverDto;
+import com.vehicle.api.dtos.dto.DriverDto;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.transports.Transport;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,4 +32,6 @@ public interface DriverServiceI {
     List<Transport> findAllTransportsWithoutDriver();
 
     List<Driver> findAllDrivers();
+
+    Page<Driver> getAllPages (Pageable pageable);
 }

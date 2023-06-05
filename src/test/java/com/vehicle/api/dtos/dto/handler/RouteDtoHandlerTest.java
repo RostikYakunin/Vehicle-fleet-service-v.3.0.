@@ -1,14 +1,11 @@
-package com.vehicle.api.mediators.dto.handler;
+package com.vehicle.api.dtos.dto.handler;
 
-import com.vehicle.api.mediators.dto.RouteDto;
+import com.vehicle.api.dtos.dto.RouteDto;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.routes.Route;
-import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.models.transports.inheritors.Bus;
-import com.vehicle.api.models.transports.inheritors.Tram;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;

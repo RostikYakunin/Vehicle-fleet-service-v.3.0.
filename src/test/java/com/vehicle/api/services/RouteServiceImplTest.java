@@ -1,11 +1,10 @@
 package com.vehicle.api.services;
 
-import com.vehicle.api.mediators.dto.RouteDto;
+import com.vehicle.api.dtos.dto.RouteDto;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.inheritors.Bus;
 import com.vehicle.api.repos.RouteRepoI;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

@@ -1,6 +1,6 @@
-package com.vehicle.api.mediators.dto.handler;
+package com.vehicle.api.dtos.dto.handler;
 
-import com.vehicle.api.mediators.dto.RouteDto;
+import com.vehicle.api.dtos.dto.RouteDto;
 import com.vehicle.api.models.routes.Route;
 import lombok.extern.slf4j.Slf4j;
 

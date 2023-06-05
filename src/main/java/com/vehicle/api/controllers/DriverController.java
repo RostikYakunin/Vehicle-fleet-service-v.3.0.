@@ -1,9 +1,9 @@
 package com.vehicle.api.controllers;
 
-import com.vehicle.api.mediators.dto.DriverDto;
-import com.vehicle.api.mediators.returned_value.ReturnedDriver;
-import com.vehicle.api.mediators.returned_value.ReturnedTransport;
-import com.vehicle.api.mediators.returned_value.converter.ReturnedConverter;
+import com.vehicle.api.dtos.dto.DriverDto;
+import com.vehicle.api.dtos.returned_value.ReturnedDriver;
+import com.vehicle.api.dtos.returned_value.ReturnedTransport;
+import com.vehicle.api.dtos.returned_value.converter.ReturnedConverter;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.services.interfaces.DriverServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class DriverController {
     public ResponseEntity<ReturnedDriver> findDriverById(@PathVariable long id) {
         Driver driver = driverService.findDriverById(id)
                 .orElseThrow(() -> new RuntimeException("Driver with id = " + id + " not found")
-        );
+                );
 
         ReturnedDriver returnedDriver = ReturnedConverter.convertToReturnedDriver(driver);
         return ResponseEntity.ok(returnedDriver);
@@ -86,7 +86,7 @@ public class DriverController {
         return ResponseEntity.ok(transports);
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<ReturnedDriver>> findAllDrivers() {
         List<ReturnedDriver> dr = driverService.findAllDrivers().stream()
                 .map(ReturnedConverter::convertToReturnedDriver)

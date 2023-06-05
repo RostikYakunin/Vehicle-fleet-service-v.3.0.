@@ -1,8 +1,8 @@
-package com.vehicle.api.mediators.returned_value.converter;
+package com.vehicle.api.dtos.returned_value.converter;
 
-import com.vehicle.api.mediators.returned_value.ReturnedDriver;
-import com.vehicle.api.mediators.returned_value.ReturnedRoute;
-import com.vehicle.api.mediators.returned_value.ReturnedTransport;
+import com.vehicle.api.dtos.returned_value.ReturnedDriver;
+import com.vehicle.api.dtos.returned_value.ReturnedRoute;
+import com.vehicle.api.dtos.returned_value.ReturnedTransport;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.drivers.DriverQualificationEnum;
 import com.vehicle.api.models.routes.Route;

@@ -1,10 +1,10 @@
 package com.vehicle.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vehicle.api.mediators.dto.DriverDto;
-import com.vehicle.api.mediators.returned_value.ReturnedDriver;
-import com.vehicle.api.mediators.returned_value.ReturnedTransport;
-import com.vehicle.api.mediators.returned_value.converter.ReturnedConverter;
+import com.vehicle.api.dtos.dto.DriverDto;
+import com.vehicle.api.dtos.returned_value.ReturnedDriver;
+import com.vehicle.api.dtos.returned_value.ReturnedTransport;
+import com.vehicle.api.dtos.returned_value.converter.ReturnedConverter;
 import com.vehicle.api.models.drivers.Driver;
 import com.vehicle.api.models.drivers.DriverQualificationEnum;
 import com.vehicle.api.models.transports.inheritors.Bus;

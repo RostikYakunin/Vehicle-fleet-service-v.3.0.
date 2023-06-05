@@ -1,6 +1,6 @@
 package com.vehicle.api.services.interfaces;
 
-import com.vehicle.api.mediators.dto.RouteDto;
+import com.vehicle.api.dtos.dto.RouteDto;
 import com.vehicle.api.models.routes.Route;
 import org.springframework.stereotype.Service;
 

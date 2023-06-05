@@ -1,15 +1,13 @@
 package com.vehicle.api.services;
 
-import com.vehicle.api.mediators.dto.TransportDto;
-import com.vehicle.api.mediators.dto.handler.TransportDtoHandler;
+import com.vehicle.api.dtos.dto.TransportDto;
+import com.vehicle.api.dtos.dto.handler.TransportDtoHandler;
 import com.vehicle.api.models.routes.Route;
 import com.vehicle.api.models.transports.Transport;
 import com.vehicle.api.models.transports.inheritors.Bus;
 import com.vehicle.api.models.transports.inheritors.Tram;
-import com.vehicle.api.repos.DriverRepoI;
 import com.vehicle.api.repos.RouteRepoI;
 import com.vehicle.api.repos.TransportRepoI;
-import com.vehicle.api.services.interfaces.RouteServiceI;
 import com.vehicle.api.services.interfaces.TransportServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
